@@ -1,0 +1,35 @@
+{{ 'magnesium-clone.css' | asset_url | stylesheet_tag }}
+<section class="mag-clone mag-stats" data-color-scheme="{{ section.settings.color_scheme | default: 'quaternary' }}">
+  <div class="mag-wrap">
+    {% if section.settings.title != blank %}<h2 class="mag-stats-title">{{ section.settings.title }}</h2>{% endif %}
+    <div class="mag-stats-track" role="list">
+      {% for block in section.blocks %}
+        <article class="mag-stats-card" role="listitem" {{ block.shopify_attributes }}>
+          <p class="mag-stats-value">{{ block.settings.value }}</p>
+          <div class="mag-stats-text rte">{{ block.settings.text }}</div>
+          {% if block.settings.caption != blank %}<p class="mag-stats-note">{{ block.settings.caption }}</p>{% endif %}
+        </article>
+      {% endfor %}
+    </div>
+    <div class="mag-stats-mobile-hint" aria-hidden="true">
+      <span class="mag-stats-hint-text">Desliza</span>
+      <span class="mag-stats-hint-dots">
+        <i></i><i></i><i></i>
+      </span>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Magnesium Stats",
+  "settings": [
+    {"type":"text","id":"title","label":"Title","default":"Resultados reportados"},
+    {"type":"select","id":"color_scheme","label":"Color scheme","options":[{"value":"primary","label":"Primary"},{"value":"secondary","label":"Secondary"},{"value":"tertiary","label":"Tertiary"},{"value":"quaternary","label":"Quaternary"}],"default":"quaternary"}
+  ],
+  "blocks": [
+    {"type":"stat","name":"Stat","settings":[{"type":"text","id":"value","label":"Value","default":"93%"},{"type":"richtext","id":"text","label":"Text","default":"<p>Se sintieron mas relajados y preparados para dormir</p>"},{"type":"text","id":"caption","label":"Caption","default":"Basado en panel independiente de 4 semanas"}]}
+  ],
+  "presets": [{"name":"Magnesium Stats","blocks":[{"type":"stat"},{"type":"stat"},{"type":"stat"}]}]
+}
+{% endschema %}

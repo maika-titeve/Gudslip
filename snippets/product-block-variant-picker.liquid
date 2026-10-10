@@ -1,0 +1,233 @@
+{% unless product.has_only_default_variant %}
+  <div
+    class="{{ block_base_classes }} space-y-2.5"
+    {{ block.shopify_attributes }}
+  >
+    {% assign option_style = block.settings.option_style %}
+    {% for option in product.options_with_values %}
+      {% liquid
+        if block.settings.enable_color_swatches
+          assign is_color = false
+          assign swatch_trigger = 'products.product.color_swatch_trigger' | t | downcase
+          assign option_downcase = option.name | downcase
+          if option_downcase contains swatch_trigger
+            assign is_color = true
+          elsif swatch_trigger == 'color' and option_downcase contains 'colour'
+            assign is_color = true
+          endif
+        endif
+      %}
+    {% assign option_array_index = forloop.index0 %}
+    {% assign option_downcase = option.name | downcase %}
+
+      {% assign is_magnesium_60_template = false %}
+      {% assign current_template_suffix = product.template_suffix | default: template.suffix | default: '' %}
+      {% if current_template_suffix == blank and template contains 'product.' %}
+        {% assign current_template_suffix = template | remove: 'product.' %}
+      {% endif %}
+      {% if current_template_suffix == 'magnesium-60-caps' or product.handle == 'magnesium-60-caps' %}
+        {% assign is_magnesium_60_template = true %}
+      {% endif %}
+
+      {% assign is_bundle_option = false %}
+      {% assign has_bundle_variant_metafield = false %}
+      {% for bundle_variant_check in product.variants %}
+        {% if bundle_variant_check.metafields.custom.bundle_subtitle != blank %}
+          {% assign has_bundle_variant_metafield = true %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
+
+      {% if block.settings.bundle_option_subtitles != blank or has_bundle_variant_metafield %}
+        {% assign is_bundle_option = true %}
+      {% elsif is_magnesium_60_template and option_downcase contains 'pack' %}
+        {% assign is_bundle_option = true %}
+      {% endif %}
+
+      <fieldset class="product-variant-picker-block {% if is_color %}-mx-color-fieldset-offset {% endif %} js-enabled">
+        {%- unless is_bundle_option or is_color or option_style == 'buttons' -%}
+          <div class="my-1 lg:flex lg:items-center lg:justify-start">
+            <label class="{{ label_class }} break-words lg:w-1/4 xl:w-1/5 lg:shrink-0 pr-2.5" for="Option{{ option.position }}-{{ section.id }}">
+              {{ option.name }}
+            </label>
+            <select
+              id="Option{{ option.position }}-{{ section.id }}"
+              name="options[{{ option.name | escape }}]"
+              @change="optionChange()"
+              class="mt-2.5 lg:mt-0 single-option-selector font-body text-base text-scheme-text appearance-none input w-full "
+              data-single-option-selector
+            >
+              {% for value in option.values %}
+                <option
+                  value="{{ value | escape }}"
+                  {% if option.selected_value == value %}selected="selected"{% endif %}>
+                    {{ value }}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+        {%- else -%}
+          <div class="my-1 {% unless is_bundle_option %}lg:flex lg:items-center lg:justify-start{% endunless %}">
+            <legend class="{{ label_class }} {% unless is_bundle_option %}lg:w-1/4 xl:w-1/5 lg:shrink-0 pr-2.5{% endunless %} {% if is_bundle_option %}mag-bundle-options-label mb-2.5 block{% endif %}">
+              {{ option.name }}{% if is_color %}:<br/><span class="mt-1 inline-block" x-text="options[{{ forloop.index0 }}]"></span>{% endif %}
+            </legend>
+            {% if is_bundle_option %}
+              {% liquid
+                assign bundle_subtitle_lines = block.settings.bundle_option_subtitles | default: '' | newline_to_br | replace: '<br />', '<br>' | replace: '<br/>', '<br>' | split: '<br>'
+              %}
+              <div class="mt-2.5 flex flex-col lg:flex-1 gap-3 mag-bundle-picker">
+                {% for value in option.values %}
+                  {%- liquid
+                    assign bundle_variant = blank
+                    for variant in product.variants
+                      if variant.options[option_array_index] == value
+                        assign bundle_variant = variant
+                        break
+                      endif
+                    endfor
+                    assign bundle_selected = false
+                    if option.selected_value == value
+                      assign bundle_selected = true
+                    endif
+                    assign bundle_discount_percent = 0
+                    if bundle_variant.compare_at_price > bundle_variant.price
+                      assign bundle_discount_percent = bundle_variant.compare_at_price | minus: bundle_variant.price | times: 100 | divided_by: bundle_variant.compare_at_price | round
+                    endif
+
+                    assign bundle_subtitle = blank
+                    assign bundle_value_key = value | strip | handleize
+                    for subtitle_line in bundle_subtitle_lines
+                      assign subtitle_clean = subtitle_line | strip
+                      if subtitle_clean != blank
+                        assign subtitle_parts = subtitle_clean | split: '|'
+                        assign subtitle_key = subtitle_parts | first | strip | handleize
+                        if subtitle_parts.size > 1 and subtitle_key == bundle_value_key
+                          assign bundle_subtitle = subtitle_parts | last | strip
+                          break
+                        endif
+                      endif
+                    endfor
+
+                    if bundle_subtitle == blank
+                      assign indexed_subtitle = bundle_subtitle_lines[forloop.index0] | strip
+                      if indexed_subtitle contains '|'
+                        assign indexed_subtitle = indexed_subtitle | split: '|' | last | strip
+                      endif
+                      if indexed_subtitle != blank
+                        assign bundle_subtitle = indexed_subtitle
+                      endif
+                    endif
+
+                    if bundle_subtitle == blank
+                      assign bundle_subtitle_metafield = bundle_variant.metafields['custom']['bundle_subtitle']
+                      assign bundle_subtitle = bundle_subtitle_metafield.value | default: bundle_subtitle_metafield.text | default: bundle_subtitle_metafield
+                    endif
+                  -%}
+                  <div class="relative variant-input">
+                    <input
+                      class="cursor-pointer absolute top-0 left-0 w-full h-full opacity-0"
+                      @change="optionChange()"
+                      type="radio"
+                      id="Section-{{ section.id }}-Option{{ option.position }}-{{ value | escape }}"
+                      name="Section-{{ section.id }}-options[{{ option.name }}]"
+                      value="{{ value | escape }}"
+                      data-handle="{{ value | handleize }}"
+                      {% if bundle_selected %} checked{% endif %}
+                      data-single-option-selector
+                    >
+                    <label
+                      class="mag-bundle-option mag-bundle-option--forced block cursor-pointer rounded-[10px] border px-5 py-4 {% unless bundle_variant.available %}opacity-60{% endunless %}"
+                      :class="{ 'is-selected' : optionHandles[{{ option_array_index }}] === '{{ value | handleize }}' }"
+                      for="Section-{{ section.id }}-Option{{ option.position }}-{{ value | escape }}"
+                      title="{{ value }}"
+                    >
+                      <div class="flex items-center justify-between gap-4">
+                        <div class="min-w-0">
+                          <p class="mag-bundle-option-title">{{ value }}</p>
+                          {% if bundle_subtitle != blank %}
+                            <p class="mag-bundle-option-subtitle">{{ bundle_subtitle }}</p>
+                          {% elsif bundle_subtitle_metafield != blank and bundle_subtitle_metafield.type == 'rich_text_field' %}
+                            <div class="mag-bundle-option-subtitle">{{ bundle_subtitle_metafield | metafield_tag }}</div>
+                          {% endif %}
+                        </div>
+                        <div class="text-right shrink-0">
+                          <div class="mag-bundle-option-price-row">
+                            <p class="mag-bundle-option-price">{{ bundle_variant.price | money }}</p>
+                            {% if bundle_variant.compare_at_price > bundle_variant.price %}
+                              <p class="mag-bundle-option-compare">{{ bundle_variant.compare_at_price | money }}</p>
+                            {% endif %}
+                          </div>
+                        </div>
+                      </div>
+                      {% if bundle_discount_percent > 0 %}
+                        <p class="mag-bundle-option-savings">Ahorra {{ bundle_discount_percent }}%</p>
+                      {% endif %}
+                      {% if bundle_discount_percent > 0 %}
+                        <span class="mag-bundle-option-badge">{{ bundle_discount_percent }}% OFF</span>
+                      {% endif %}
+                    </label>
+                  </div>
+                {% endfor %}
+              </div>
+            {% else %}
+              <div class="mt-2.5 flex flex-wrap lg:flex-1  gap-2.5">
+                {% for value in option.values %}
+                  {%- liquid
+                    assign variant_label_state = true
+                    if product.options.size == 1
+                      unless product.variants[forloop.index0].available
+                        assign variant_label_state = false
+                      endunless
+                    endif
+                    assign color_image = value | handle | append: '.' | append: 'png' | file_img_url: '120x' | prepend: 'https:'
+                    assign color_swatch_fallback = value | split: ' ' | last | handle
+                  -%}
+                  <div class="inline-block relative variant-input">
+                    <input
+                      class="{% if is_color %}color-swatch{% endif %} cursor-pointer absolute top-0 left-0 w-full h-full opacity-0"
+                      @change="optionChange()"
+                      type="radio"
+                      id="Section-{{ section.id }}-Option{{ option.position }}-{{ value | escape }}" name="Section-{{ section.id }}-options[{{ option.name }}]"
+                      value="{{ value | escape }}"
+                      data-handle="{{ value | handleize }}"
+                      {% if option.selected_value == value %} checked{% endif %} data-single-option-selector
+                    >
+                    <label
+                      :class="
+                        {
+                          {% if is_color %}
+                            'shadow-none' : optionHandles[{{ option_array_index }}] !== '{{ value | handleize }}'
+                          {% else %}
+                          'bg-scheme-secondary-background text-scheme-text shadow-secondary' : optionHandles[{{ option_array_index }}] !== '{{ value | handleize }}',
+                            'bg-scheme-text text-scheme-text-overlay' : optionHandles[{{ option_array_index }}] === '{{ value | handleize }}'
+                          {% endif %}
+                        }
+                      "
+                      class="btn after:hidden
+                        {% if is_color %}p-1 bg-scheme-secondary-background{% endif %}
+                        cursor-pointer
+                        {% unless variant_label_state %}
+                          line-through
+                        {% endunless %}
+                        cursor-pointer"
+                      for="Section-{{ section.id }}-Option{{ option.position }}-{{ value | escape }}"
+                      title="{{ option.value }}"
+                      >
+                      {%- if is_color %}
+                        {%- unless variant_label_state -%}
+                          <span class="absolute left-0 bottom-0 z-10 h-[var(--input-border-width)] w-full bg-scheme-text top-1/2 -translate-y-1/2 -rotate-45"></span>
+                        {%- endunless -%}
+                        <span class="btn after:none block w-8 h-8 bg-cover" style="background-image: url({{ color_image }}); background-color: {{ color_swatch_fallback }};"></span>
+                      {%- endif -%}
+                      <span {% if is_color %}class="sr-only"{% endif %}>{{ value }}</span>
+                    </label>
+                  </div>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        {%- endunless -%}
+      </fieldset>
+    {% endfor %}
+  </div>
+{% endunless %}

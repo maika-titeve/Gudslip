@@ -1,0 +1,425 @@
+{
+  "sections": {
+    "image_with_text_overlay_X9aUmy": {
+      "type": "image-with-text-overlay",
+      "settings": {
+        "image": "shopify:\/\/shop_images\/BANNER_CHILE_ORDENADOR-ezgif.com-png-to-webp-converter.webp",
+        "image_mobile": "shopify:\/\/shop_images\/BANNER_CHILE_MOVIL-ezgif.com-png-to-webp-converter.webp",
+        "display_on_card": false,
+        "display_content_below_image_on_mobile": false,
+        "style": "full",
+        "height": "natural",
+        "place_content": "place-content-center-start",
+        "text_align": "text-center",
+        "title": "ALL SLEEP GUD.",
+        "heading_size": "heading-standard",
+        "richtext": "<p>Respira Mejor, Duerme Mejor<\/p>",
+        "cta_url": "shopify:\/\/collections\/sleep",
+        "cta_text": "COMPRA AHORA",
+        "color_scheme": "primary",
+        "use_gradient_background": false,
+        "text_overlay_color": "same_as_section"
+      }
+    },
+    "collection_tabs_jnCBDk": {
+      "type": "collection-tabs",
+      "blocks": {
+        "collection_yy9Fmk": {
+          "type": "collection",
+          "settings": {
+            "title": "DORMIR",
+            "collection": "sleep",
+            "product_limit": 8,
+            "product_row_count": 3,
+            "mobile_product_row_count": 2
+          }
+        },
+        "collection_QJNhzU": {
+          "type": "collection",
+          "settings": {
+            "title": "DEPORTE",
+            "collection": "sport",
+            "product_limit": 6,
+            "product_row_count": 3,
+            "mobile_product_row_count": 2
+          }
+        }
+      },
+      "block_order": [
+        "collection_yy9Fmk",
+        "collection_QJNhzU"
+      ],
+      "settings": {
+        "title": "NUESTROS MÁS VENDIDOS",
+        "title_desktop": 28,
+        "title_mobile": 22,
+        "tabs_color": "#000000",
+        "tabs_color_active": "#03045e",
+        "tabs_size": 20,
+        "tabs_size_mobile": 16,
+        "tabs_padding_bottom": 16,
+        "tabs_align": "center",
+        "tabs_spacing": 45,
+        "tabs_spacing_mobile": 36,
+        "tabs_margin_bottom": 40,
+        "background-color": "#ffffff",
+        "enable_swiper_on_mobile": false,
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "padding_top": 56,
+        "padding_bottom": 36,
+        "padding_sides": 5,
+        "padding_sides_mobile": 1.5,
+        "section-width": 85
+      }
+    },
+    "1650891358fef95dd4": {
+      "type": "featured-collection",
+      "blocks": {
+        "7261f40b-41bf-4b48-8953-041e29fe35e4": {
+          "type": "shape_divider",
+          "disabled": true,
+          "settings": {
+            "target_section": "above",
+            "target_section_color_scheme": "secondary",
+            "style": "medium-waves_1200x43",
+            "flip_horizontal": false,
+            "enable_animation": false,
+            "animation_direction": ""
+          }
+        }
+      },
+      "block_order": [
+        "7261f40b-41bf-4b48-8953-041e29fe35e4"
+      ],
+      "disabled": true,
+      "custom_css": [
+        ".input {display: none;}"
+      ],
+      "settings": {
+        "title": "Our Best Sellers:",
+        "subheading": "",
+        "collection": "featured-collection",
+        "no_products": 6,
+        "show_view_all": false,
+        "enable_quick_buy": true,
+        "display_on_card": false,
+        "layout": "grid",
+        "products_per_row_mobile": "1",
+        "products_per_row_desktop": 3,
+        "slideshow_focus": "center",
+        "mobile_slide_width": "three_fifths",
+        "desktop_slide_width": 35,
+        "autoscroll_mode": "0",
+        "product_tiles_aspect_ratio": "aspect-w-1 aspect-h-1",
+        "image_shape": "default",
+        "color_scheme": "quaternary",
+        "use_gradient_background": false
+      }
+    },
+    "16508912994a26e8bf": {
+      "type": "rich-text",
+      "blocks": {
+        "0a67b1dc-9897-4fc0-ab9e-cfd162628bae": {
+          "type": "sticker",
+          "disabled": true,
+          "settings": {
+            "text": "Sticker",
+            "shape": "star_1",
+            "width": 150,
+            "sticker_font_size": "1.25rem",
+            "half_image_width_on_mobile": true,
+            "horizontal_position": 8,
+            "vertical_position": 80,
+            "rotate": 0,
+            "show_sticker_on_mobile": true,
+            "show_sticker_on_desktop": true,
+            "rotation_animation": "rotate_when_scrolling",
+            "enable_parallax": true,
+            "parallax_speed": 3,
+            "color": "bg-scheme-accent-1 text-scheme-accent-1-overlay",
+            "color_scheme": "same_as_section"
+          }
+        },
+        "shape_divider_J6GiMG": {
+          "type": "shape_divider",
+          "settings": {
+            "target_section": "above",
+            "target_section_color_scheme": "tertiary",
+            "style": "tilt-1-asymmetrical_1440x101",
+            "flip_horizontal": false,
+            "enable_animation": true,
+            "animation_direction": ""
+          }
+        }
+      },
+      "block_order": [
+        "0a67b1dc-9897-4fc0-ab9e-cfd162628bae",
+        "shape_divider_J6GiMG"
+      ],
+      "custom_css": [],
+      "settings": {
+        "title": "Desbloquea un mejor sueño con GudSlip®",
+        "heading_size": "heading-standard",
+        "rich_text": "<p>Mejora tu sueño con Gudslip®. Nuestros productos stán diseñados para ofrecerte la mejor calidad y comodidad. Fabricados con materiales de calidad farmacéutica, nos aseguramos de que puedas respirar mejor y dormir más profundo. Elige Gudslip® para cuidar de tu bienestar y disfrutar de un descanso reparador cada noche.<\/p>",
+        "display_on_card": false,
+        "content_width_desktop": "lg:w-2\/3",
+        "button_link": "",
+        "button_label": "Shop Now",
+        "color_scheme": "primary",
+        "use_gradient_background": false
+      }
+    },
+    "1650891303c44cb2d2": {
+      "type": "icon-list",
+      "blocks": {
+        "16508913039d58ab55-0": {
+          "type": "icon",
+          "settings": {
+            "icon": "icon1",
+            "text": "Ronquidos reducidos"
+          }
+        },
+        "16508913039d58ab55-1": {
+          "type": "icon",
+          "settings": {
+            "icon": "icon2",
+            "text": "Respiración mejorada"
+          }
+        },
+        "16508913039d58ab55-2": {
+          "type": "icon",
+          "settings": {
+            "icon": "icon3",
+            "text": "Sequedad bucal"
+          }
+        },
+        "2d49c667-6651-4aec-9f2e-b5b01b310ecd": {
+          "type": "icon",
+          "settings": {
+            "icon": "icon4",
+            "text": "Mejor sueño"
+          }
+        }
+      },
+      "block_order": [
+        "16508913039d58ab55-0",
+        "16508913039d58ab55-1",
+        "16508913039d58ab55-2",
+        "2d49c667-6651-4aec-9f2e-b5b01b310ecd"
+      ],
+      "custom_css": [],
+      "settings": {
+        "title": "",
+        "max_width": 70,
+        "text_style": "body",
+        "color_scheme": "primary",
+        "use_gradient_background": false
+      }
+    },
+    "165089147572b58f85": {
+      "type": "image-with-text-overlay",
+      "custom_css": [
+        ".iwt_content .rte,.iwt_content .font-heading {color: #000;}",
+        "@media (min-width: 990px) {.push-btn-surface {color: #000; border: 2px solid #000; } p {font-size: 18px; } .iwt_content {padding-right: 70px; }}"
+      ],
+      "settings": {
+        "image": "shopify:\/\/shop_images\/5.jpg",
+        "image_mobile": "shopify:\/\/shop_images\/banner-movil-gudslip.webp",
+        "display_on_card": false,
+        "display_content_below_image_on_mobile": false,
+        "style": "full",
+        "height": "natural",
+        "place_content": "place-content-center-start",
+        "text_align": "text-left",
+        "title": "Mejora la absorción de oxígeno",
+        "heading_size": "heading-standard",
+        "richtext": "<p>La cinta bucal Gudslip® fomenta suavemente la respiración nasal, optimizando la entrada de aire. La cinta bucal Gudslip® fomenta suavemente la respiración nasal, asegurando que respires por la nariz. Esto optimiza la entrada de aire, mejora la absorción de oxígeno, reduce los ronquidos y mejora la calidad del sueño.<\/p>",
+        "cta_url": "",
+        "cta_text": "",
+        "color_scheme": "secondary",
+        "use_gradient_background": false,
+        "text_overlay_color": "same_as_section"
+      }
+    },
+    "image_with_text_overlay_BrJW7c": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "shape_divider_m6TXyU": {
+          "type": "shape_divider",
+          "disabled": true,
+          "settings": {
+            "target_section": "below",
+            "target_section_color_scheme": "quaternary",
+            "style": "medium-waves_1200x43",
+            "flip_horizontal": false,
+            "enable_animation": false,
+            "animation_direction": ""
+          }
+        }
+      },
+      "block_order": [
+        "shape_divider_m6TXyU"
+      ],
+      "custom_css": [
+        ".iwt_content {max-width: 331px;}",
+        ".iwt_content .font-heading {font-size: 35px !important;}",
+        "@media (max-width: 767px) {.iwt_content .font-heading {font-size: 26px !important; } .iwt_content {max-width: 200px; }}"
+      ],
+      "settings": {
+        "image": "shopify:\/\/shop_images\/2.jpg",
+        "image_mobile": "shopify:\/\/shop_images\/2.2_1.jpg",
+        "display_on_card": false,
+        "display_content_below_image_on_mobile": false,
+        "style": "full",
+        "height": "natural",
+        "place_content": "place-content-center-center",
+        "text_align": "text-center",
+        "title": "No dejes que el mal sueño te detenga",
+        "heading_size": "heading-standard",
+        "richtext": "<p>Desata todo tu potencial<\/p>",
+        "cta_url": "shopify:\/\/collections\/all",
+        "cta_text": "Compra ahora",
+        "color_scheme": "primary",
+        "use_gradient_background": false,
+        "text_overlay_color": "same_as_section"
+      }
+    },
+    "1744643743189e49e5": {
+      "type": "apps",
+      "blocks": {
+        "loox_reviews_loox_agg_section_dYYDQc": {
+          "type": "shopify:\/\/apps\/loox-reviews\/blocks\/loox-agg-section\/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
+          "settings": {
+            "only_photos": false,
+            "hide_thumbnails": true,
+            "product_handle": "",
+            "aggregated": true,
+            "data-limit": 10,
+            "maxwidth": 1400,
+            "is_sample": true
+          }
+        }
+      },
+      "block_order": [
+        "loox_reviews_loox_agg_section_dYYDQc"
+      ],
+      "settings": {
+        "apply_vertical_spacing": true,
+        "apply_horizontal_spacing": true,
+        "display_on_card": false,
+        "content_width_desktop": "lg:w-full",
+        "color_scheme": "tertiary",
+        "use_gradient_background": false
+      }
+    },
+    "165089168609b8f684": {
+      "type": "blog-posts",
+      "blocks": {
+        "shape_divider_tYmbPb": {
+          "type": "shape_divider",
+          "disabled": true,
+          "settings": {
+            "target_section": "below",
+            "target_section_color_scheme": "secondary",
+            "style": "tilt-1-asymmetrical_1440x101",
+            "flip_horizontal": false,
+            "enable_animation": false,
+            "animation_direction": ""
+          }
+        }
+      },
+      "block_order": [
+        "shape_divider_tYmbPb"
+      ],
+      "settings": {
+        "display_on_card": false,
+        "title": "Blogs",
+        "blog": "news",
+        "post_limit": 3,
+        "crop": "aspect-w-4 aspect-h-3",
+        "image_shape": "default",
+        "blog_show_author": false,
+        "blog_show_date": true,
+        "show_post_excerpt": false,
+        "show_view_all": true,
+        "color_scheme": "quaternary",
+        "use_gradient_background": false
+      }
+    },
+    "hero_slideshow_yCUyiF": {
+      "type": "hero-slideshow",
+      "blocks": {
+        "slide_pMXJfK": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/Banner_ashwa_pc.webp",
+            "title": "ALL SLEEP GUD.",
+            "richtext": "<p>Breathe Better. Sleep Better.<\/p>",
+            "cta_url": "shopify:\/\/products\/ashwagandha-60-caps",
+            "cta_text": "Shop Now",
+            "place_content": "inherit",
+            "text_align": "inherit",
+            "text_overlay_color": "same_as_section"
+          }
+        },
+        "slide_U7fHVi": {
+          "type": "slide",
+          "settings": {
+            "title": "Hero slideshow",
+            "richtext": "",
+            "cta_url": "",
+            "cta_text": "Shop Now",
+            "place_content": "inherit",
+            "text_align": "inherit",
+            "text_overlay_color": "same_as_section"
+          }
+        }
+      },
+      "block_order": [
+        "slide_pMXJfK",
+        "slide_U7fHVi"
+      ],
+      "disabled": true,
+      "settings": {
+        "style": "full",
+        "height": "natural",
+        "display_on_card": true,
+        "display_content_below_image_on_mobile": true,
+        "auto_rotate": true,
+        "slide_speed": "5000",
+        "place_content": "place-content-center-start",
+        "text_align": "text-center",
+        "heading_size": "heading-standard",
+        "color_scheme": "primary",
+        "use_gradient_background": false
+      }
+    },
+    "1650891804363a2769": {
+      "type": "newsletter",
+      "custom_css": [
+        ".px-section {padding-bottom: 200px;}"
+      ],
+      "settings": {
+        "title": "Regístrate para ofertas exclusivas y noticias",
+        "richtext": "",
+        "display_on_card": false,
+        "color_scheme": "quaternary",
+        "use_gradient_background": false
+      }
+    }
+  },
+  "order": [
+    "image_with_text_overlay_X9aUmy",
+    "collection_tabs_jnCBDk",
+    "1650891358fef95dd4",
+    "16508912994a26e8bf",
+    "1650891303c44cb2d2",
+    "165089147572b58f85",
+    "image_with_text_overlay_BrJW7c",
+    "1744643743189e49e5",
+    "165089168609b8f684",
+    "hero_slideshow_yCUyiF",
+    "1650891804363a2769"
+  ]
+}

@@ -1,0 +1,62 @@
+{{ 'magnesium-clone.css' | asset_url | stylesheet_tag }}
+
+<section
+  class="mag-clone mag-logo-marquee"
+  data-color-scheme="{{ section.settings.color_scheme | default: 'quaternary' }}"
+  style="
+    --mag-logo-speed: {{ section.settings.speed_seconds }}s;
+    --mag-logo-gap-mobile: {{ section.settings.logo_gap_mobile }}px;
+    --mag-logo-gap-desktop: {{ section.settings.logo_gap }}px;
+    --mag-logo-height: {{ section.settings.logo_height }}px;
+  "
+>
+  <div class="mag-wrap">
+    <div class="mag-logo-marquee-box {% if section.settings.pause_on_hover %}is-pause-on-hover{% endif %}">
+      <div class="mag-logo-track">
+        {% for i in (1..2) %}
+          <div class="mag-logo-row" aria-hidden="{% if i == 2 %}true{% else %}false{% endif %}">
+            {% for block in section.blocks %}
+              <div class="mag-logo-item" {{ block.shopify_attributes }}>
+                {% if block.settings.logo != blank %}
+                  {{ block.settings.logo | image_url: width: 600 | image_tag: loading: 'lazy', class: 'mag-logo-img' }}
+                {% elsif block.settings.label != blank %}
+                  <span class="mag-logo-text">{{ block.settings.label }}</span>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Magnesium Logo Marquee",
+  "settings": [
+    {"type":"range","id":"speed_seconds","label":"Velocidad (segundos por vuelta)","min":8,"max":60,"step":1,"default":22},
+    {"type":"range","id":"logo_gap_mobile","label":"Separacion entre logos (mobile)","min":12,"max":90,"step":2,"default":36},
+    {"type":"range","id":"logo_gap","label":"Separacion entre logos","min":24,"max":140,"step":2,"default":72},
+    {"type":"range","id":"logo_height","label":"Alto maximo logo","min":18,"max":64,"step":1,"default":34},
+    {"type":"checkbox","id":"pause_on_hover","label":"Pausar al pasar mouse","default":false},
+    {"type":"select","id":"color_scheme","label":"Color scheme","options":[{"value":"primary","label":"Primary"},{"value":"secondary","label":"Secondary"},{"value":"tertiary","label":"Tertiary"},{"value":"quaternary","label":"Quaternary"}],"default":"quaternary"}
+  ],
+  "blocks": [
+    {
+      "type":"logo",
+      "name":"Logo",
+      "settings":[
+        {"type":"image_picker","id":"logo","label":"Logo"},
+        {"type":"text","id":"label","label":"Texto fallback","default":"Marca"}
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name":"Magnesium Logo Marquee",
+      "blocks":[{"type":"logo"},{"type":"logo"},{"type":"logo"},{"type":"logo"}]
+    }
+  ]
+}
+{% endschema %}

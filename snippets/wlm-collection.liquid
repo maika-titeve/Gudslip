@@ -1,0 +1,11 @@
+{%- assign w_continue = 'no' -%}
+{% assign wlmHideItem_Collection = false %}
+{% if wlm-collection.id == 327153746099  %}
+{% assign wlmHideItem_Collection = true %}
+{% endif %}
+
+
+
+{% if wlmHideItem_Collection == true %}{% continue %}{% endif %}
+
+{%- if wlm_is_render == 'yes' -%}{{- w_continue -}}{%-endif-%}

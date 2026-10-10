@@ -1,0 +1,243 @@
+{{ 'custom_cart.css' | asset_url | stylesheet_tag }}
+
+<section class="text-scheme-text bg-scheme-background relative overflow-hidden {% if section.settings.use_gradient_background %}bg-scheme-gradient{% endif %} overflow-hidden" data-color-scheme="{{ section.settings.color_scheme | default: 'primary' }}" >
+  <div class="section-content py-section-vertical-spacing px-section max-w-5xl mx-auto">
+    <div class="{% if section.settings.display_on_card %}text-scheme-text card-container{% endif %}">
+      <div class="{% if section.settings.display_on_card %}card p-5 lg:p-10{% endif %}">
+        <h1 class="text-center font-heading  heading-feature heading-style {{ settings.heading_drop_shadow_style }}">{{ 'cart.general.title' | t }}</h1>
+        <div class="mt-5 lg:mt-10">
+          {% render 'cart-items' %}
+          {% render 'cart-footer' %}
+        </div>
+      </div>
+      {% if section.settings.display_on_card and settings.card_show_border_on_shadow %}<div class="card-border"></div>{% endif %}
+    </div>
+  </div>
+</section>
+
+
+<script>
+
+  const regionesComunas=[{"regionName":"Metropolitana de Santiago","regionCode":"RM","regionProvinces":[{"displayName":"Alhué"},{"displayName":"Buin"},{"displayName":"Calera de Tango"},{"displayName":"Cerrillos"},{"displayName":"Cerro Navia"},{"displayName":"Colina"},{"displayName":"Conchalí"},{"displayName":"Curacaví"},{"displayName":"El Bosque"},{"displayName":"El Monte"},{"displayName":"Estación Central"},{"displayName":"Huechuraba"},{"displayName":"Independencia"},{"displayName":"Isla de Maipo"},{"displayName":"La Cisterna"},{"displayName":"La Florida"},{"displayName":"La Granja"},{"displayName":"Lampa"},{"displayName":"La Pintana"},{"displayName":"La Reina"},{"displayName":"Las Condes"},{"displayName":"Lo Barnechea"},{"displayName":"Lo Espejo"},{"displayName":"Lo Prado"},{"displayName":"Macul"},{"displayName":"Maipú"},{"displayName":"María Pinto"},{"displayName":"Melipilla"},{"displayName":"Ñuñoa"},{"displayName":"Padre Hurtado"},{"displayName":"Paine"},{"displayName":"Pedro Aguirre Cerda"},{"displayName":"Peñaflor"},{"displayName":"Peñalolén"},{"displayName":"Pirque"},{"displayName":"Providencia"},{"displayName":"Pudahuel"},{"displayName":"Puente Alto"},{"displayName":"Quilicura"},{"displayName":"Quinta Normal"},{"displayName":"Recoleta"},{"displayName":"Renca"},{"displayName":"San Bernardo"},{"displayName":"San Joaquín"},{"displayName":"San José de Maipo"},{"displayName":"San Miguel"},{"displayName":"San Pedro"},{"displayName":"San Ramón"},{"displayName":"Santiago"},{"displayName":"Talagante"},{"displayName":"Tiltil"},{"displayName":"Vitacura"}]},{"regionName":"Tarapacá","regionCode":"TA","regionProvinces":[{"displayName":"Alto Hospicio"},{"displayName":"Camiña"},{"displayName":"Colchane"},{"displayName":"Huara"},{"displayName":"Iquique"},{"displayName":"Pica"},{"displayName":"Pozo Almonte"}]},{"regionName":"Antofagasta","regionCode":"AN","regionProvinces":[{"displayName":"Antofagasta"},{"displayName":"Calama"},{"displayName":"María Elena"},{"displayName":"Mejillones"},{"displayName":"Ollagüe"},{"displayName":"San Pedro de Atacama"},{"displayName":"Sierra Gorda"},{"displayName":"Taltal"},{"displayName":"Tocopilla"}]},{"regionName":"Atacama","regionCode":"AT","regionProvinces":[{"displayName":"Alto del Carmen"},{"displayName":"Caldera"},{"displayName":"Chañaral"},{"displayName":"Copiapó"},{"displayName":"Diego de Almagro"},{"displayName":"Freirina"},{"displayName":"Huasco"},{"displayName":"Tierra Amarilla"},{"displayName":"Vallenar"}]},{"regionName":"Coquimbo","regionCode":"CO","regionProvinces":[{"displayName":"Andacollo"},{"displayName":"Canela"},{"displayName":"Combarbalá"},{"displayName":"Coquimbo"},{"displayName":"Illapel"},{"displayName":"La Higuera"},{"displayName":"La Serena"},{"displayName":"Los Vilos"},{"displayName":"Monte Patria"},{"displayName":"Ovalle"},{"displayName":"Paiguano"},{"displayName":"Punitaqui"},{"displayName":"Río Hurtado"},{"displayName":"Salamanca"},{"displayName":"Vicuña"}]},{"regionName":"Valparaíso","regionCode":"VS","regionProvinces":[{"displayName":"Algarrobo"},{"displayName":"Cabildo"},{"displayName":"Calera"},{"displayName":"Calera"},{"displayName":"Calle Larga"},{"displayName":"Cartagena"},{"displayName":"Casablanca"},{"displayName":"Catemu"},{"displayName":"Concón"},{"displayName":"El Quisco"},{"displayName":"El Tabo"},{"displayName":"Hijuelas"},{"displayName":"Isla de Pascua"},{"displayName":"Juan Fernández"},{"displayName":"La Cruz"},{"displayName":"La Ligua"},{"displayName":"Limache"},{"displayName":"Llaillay"},{"displayName":"Los Andes"},{"displayName":"Nogales"},{"displayName":"Olmué"},{"displayName":"Panquehue"},{"displayName":"Papudo"},{"displayName":"Petorca"},{"displayName":"Puchuncaví"},{"displayName":"Putaendo"},{"displayName":"Quillota"},{"displayName":"Quilpué"},{"displayName":"Quintero"},{"displayName":"Rinconada"},{"displayName":"San Antonio"},{"displayName":"San Esteban"},{"displayName":"San Felipe"},{"displayName":"Santa María"},{"displayName":"Santo Domingo"},{"displayName":"Valparaíso"},{"displayName":"Villa Alemana"},{"displayName":"Viña del Mar"},{"displayName":"Zapallar"}]},{"regionName":"Libertador General Bernardo OHiggins","regionCode":"LI","regionProvinces":[{"displayName":"Chépica"},{"displayName":"Chimbarongo"},{"displayName":"Codegua"},{"displayName":"Coinco"},{"displayName":"Coltauco"},{"displayName":"Doñihue"},{"displayName":"Graneros"},{"displayName":"La Estrella"},{"displayName":"Las Cabras"},{"displayName":"Litueche"},{"displayName":"Lolol"},{"displayName":"Machalí"},{"displayName":"Malloa"},{"displayName":"Marchihue"},{"displayName":"Mostazal"},{"displayName":"Nancagua"},{"displayName":"Navidad"},{"displayName":"Olivar"},{"displayName":"Palmilla"},{"displayName":"Paredones"},{"displayName":"Peralillo"},{"displayName":"Peumo"},{"displayName":"Pichidegua"},{"displayName":"Pichilemu"},{"displayName":"Placilla"},{"displayName":"Pumanque"},{"displayName":"Quinta de Tilcoco"},{"displayName":"Rancagua"},{"displayName":"Rengo"},{"displayName":"Requínoa"},{"displayName":"San Fernando"},{"displayName":"Santa Cruz"},{"displayName":"San Vicente"}]},{"regionName":"Maule","regionCode":"ML","regionProvinces":[{"displayName":"Cauquenes"},{"displayName":"Chanco"},{"displayName":"Colbún"},{"displayName":"Constitución"},{"displayName":"Curepto"},{"displayName":"Curicó"},{"displayName":"Empedrado"},{"displayName":"Hualañé"},{"displayName":"Licantén"},{"displayName":"Linares"},{"displayName":"Longaví"},{"displayName":"Maule"},{"displayName":"Molina"},{"displayName":"Parral"},{"displayName":"Pelarco"},{"displayName":"Pelluhue"},{"displayName":"Pencahue"},{"displayName":"Rauco"},{"displayName":"Retiro"},{"displayName":"Río Claro"},{"displayName":"Romeral"},{"displayName":"Sagrada Familia"},{"displayName":"San Clemente"},{"displayName":"San Javier"},{"displayName":"San Rafael"},{"displayName":"Talca"},{"displayName":"Teno"},{"displayName":"Vichuquén"},{"displayName":"Villa Alegre"},{"displayName":"Yerbas Buenas"}]},{"regionName":"Biobío","regionCode":"BI","regionProvinces":[{"displayName":"Alto Biobío"},{"displayName":"Antuco"},{"displayName":"Arauco"},{"displayName":"Cabrero"},{"displayName":"Cañete"},{"displayName":"Chiguayante"},{"displayName":"Concepción"},{"displayName":"Contulmo"},{"displayName":"Coronel"},{"displayName":"Curanilahue"},{"displayName":"Florida"},{"displayName":"Hualpén"},{"displayName":"Hualqui"},{"displayName":"Laja"},{"displayName":"Lebu"},{"displayName":"Los Álamos"},{"displayName":"Los Ángeles"},{"displayName":"Lota"},{"displayName":"Mulchén"},{"displayName":"Nacimiento"},{"displayName":"Negrete"},{"displayName":"Penco"},{"displayName":"Quilaco"},{"displayName":"Quilleco"},{"displayName":"San Pedro de la Paz"},{"displayName":"San Rosendo"},{"displayName":"Santa Bárbara"},{"displayName":"Santa Juana"},{"displayName":"Talcahuano"},{"displayName":"Tirúa"},{"displayName":"Tomé"},{"displayName":"Tucapel"},{"displayName":"Yumbel"}]},{"regionName":"La Araucanía","regionCode":"AR","regionProvinces":[{"displayName":"Angol"},{"displayName":"Carahue"},{"displayName":"Cholchol"},{"displayName":"Collipulli"},{"displayName":"Cunco"},{"displayName":"Curacautín"},{"displayName":"Curarrehue"},{"displayName":"Ercilla"},{"displayName":"Freire"},{"displayName":"Galvarino"},{"displayName":"Gorbea"},{"displayName":"Lautaro"},{"displayName":"Loncoche"},{"displayName":"Lonquimay"},{"displayName":"Los Sauces"},{"displayName":"Lumaco"},{"displayName":"Melipeuco"},{"displayName":"Nueva Imperial"},{"displayName":"Padre las Casas"},{"displayName":"Perquenco"},{"displayName":"Pitrufquén"},{"displayName":"Pucón"},{"displayName":"Purén"},{"displayName":"Renaico"},{"displayName":"Saavedra"},{"displayName":"Temuco"},{"displayName":"Teodoro Schmidt"},{"displayName":"Toltén"},{"displayName":"Traiguén"},{"displayName":"Victoria"},{"displayName":"Vilcún"},{"displayName":"Villarrica"}]},{"regionName":"Los Lagos","regionCode":"LL","regionProvinces":[{"displayName":"Ancud"},{"displayName":"Calbuco"},{"displayName":"Castro"},{"displayName":"Chaitén"},{"displayName":"Chonchi"},{"displayName":"Cochamó"},{"displayName":"Curaco de Vélez"},{"displayName":"Dalcahue"},{"displayName":"Fresia"},{"displayName":"Frutillar"},{"displayName":"Futaleufú"},{"displayName":"Hualaihué"},{"displayName":"Llanquihue"},{"displayName":"Los Muermos"},{"displayName":"Maullín"},{"displayName":"Osorno"},{"displayName":"Palena"},{"displayName":"Puerto Montt"},{"displayName":"Puerto Octay"},{"displayName":"Puerto Varas"},{"displayName":"Puqueldón"},{"displayName":"Purranque"},{"displayName":"Puyehue"},{"displayName":"Queilén"},{"displayName":"Quellón"},{"displayName":"Quemchi"},{"displayName":"Quinchao"},{"displayName":"Río Negro"},{"displayName":"San Juan de la Costa"},{"displayName":"San Pablo"}]},{"regionName":"Aysén del General Carlos Ibáñez del Campo","regionCode":"AI","regionProvinces":[{"displayName":"Aysén"},{"displayName":"Chile Chico"},{"displayName":"Cisnes"},{"displayName":"Cochrane"},{"displayName":"Coihaique"},{"displayName":"Coihaique"},{"displayName":"Guaitecas"},{"displayName":"Lago Verde"},{"displayName":"O’Higgins"},{"displayName":"Río Ibáñez"},{"displayName":"Tortel"}]},{"regionName":"Magallanes y de la Antártica Chilena","regionCode":"MA","regionProvinces":[{"displayName":"Antártica"},{"displayName":"Cabo de Hornos"},{"displayName":"Laguna Blanca"},{"displayName":"Natales"},{"displayName":"Porvenir"},{"displayName":"Primavera"},{"displayName":"Punta Arenas"},{"displayName":"Río Verde"},{"displayName":"San Gregorio"},{"displayName":"Timaukel"},{"displayName":"Torres del Paine"}]},{"regionName":"Los Ríos","regionCode":"LR","regionProvinces":[{"displayName":"Corral"},{"displayName":"Futrono"},{"displayName":"Lago Ranco"},{"displayName":"Lanco"},{"displayName":"La Unión"},{"displayName":"Los Lagos"},{"displayName":"Máfil"},{"displayName":"Mariquina"},{"displayName":"Paillaco"},{"displayName":"Panguipulli"},{"displayName":"Río Bueno"},{"displayName":"Valdivia"}]},{"regionName":"Arica y Parinacota","regionCode":"AP","regionProvinces":[{"displayName":"Arica"},{"displayName":"Camarones"},{"displayName":"General Lagos"},{"displayName":"Putre"}]},{"regionName":"Ñuble","regionCode":"NB","regionProvinces":[{"displayName":"Bulnes"},{"displayName":"Chillán"},{"displayName":"Chillán Viejo"},{"displayName":"Cobquecura"},{"displayName":"Coelemu"},{"displayName":"Coihueco"},{"displayName":"El Carmen"},{"displayName":"Ninhue"},{"displayName":"Ñiquén"},{"displayName":"Pemuco"},{"displayName":"Pinto"},{"displayName":"Portezuelo"},{"displayName":"Quillón"},{"displayName":"Quirihue"},{"displayName":"Ránquil"},{"displayName":"San Carlos"},{"displayName":"San Fabián"},{"displayName":"San Ignacio"},{"displayName":"San Nicolás"},{"displayName":"Treguaco"},{"displayName":"Yungay"}]}];
+
+document.addEventListener('DOMContentLoaded', function () {
+  const form = document.querySelector('#cart');
+  const checkboxBoleta = document.querySelector('.add-boleta');
+  const checkboxFactura = document.querySelector('.add-factura');
+  const facturaContainer = document.querySelector('.factura-container');
+
+  const hiddenFields = {
+    "Boleta/Factura": form.querySelector('input[name="attributes[Boleta/Factura]"]'),
+    "Rut": form.querySelector('input[name="attributes[Rut]"]'),
+    "Giro": form.querySelector('input[name="attributes[Giro]"]'),
+    "Razón social": form.querySelector('input[name="attributes[Razón social]"]'),
+    "Dirección": form.querySelector('input[name="attributes[Dirección]"]'),
+    "Región": form.querySelector('input[name="attributes[Región]"]'),
+    "Comuna": form.querySelector('input[name="attributes[Comuna]"]'),
+    "Correo": form.querySelector('input[name="attributes[Correo]"]')
+  };
+
+  const visibleFields = {
+    "Rut": document.getElementById("rutInput"),
+    "Giro": document.getElementById("giroInput"),
+    "Razón social": document.getElementById("razonSocialInput"),
+    "Dirección": document.getElementById("addressInput"),
+    "Región": document.getElementById("regionInput"),
+    "Comuna": document.getElementById("comunaInput"),
+    "Correo": document.getElementById("emailInput")
+  };
+
+
+  checkboxFactura.checked = true;
+  checkboxBoleta.checked = false;
+  facturaContainer.style.display = 'block';
+  hiddenFields["Boleta/Factura"].value = 'Factura';
+
+
+  checkboxFactura.addEventListener('change', () => {
+    const checked = checkboxFactura.checked;
+    checkboxBoleta.checked = false;
+    facturaContainer.style.display = checked ? 'block' : 'none';
+    hiddenFields["Boleta/Factura"].value = checked ? 'Factura' : '';
+    if (checked) visibleFields["Rut"].focus();
+  });
+
+  checkboxBoleta.addEventListener('change', () => {
+
+
+ 
+    const checked = checkboxBoleta.checked;
+    checkboxFactura.checked = false;
+    facturaContainer.style.display = 'none';
+
+    console.log(hiddenFields["Boleta/Factura"]);
+    hiddenFields["Boleta/Factura"].value = checked ? 'Boleta' : '';
+
+    Object.entries(visibleFields).forEach(([key, field]) => {
+      field.value = '';
+      hiddenFields[key].value = '';
+      field.parentElement.classList.remove('invalid');
+    });
+  });
+
+  Object.entries(visibleFields).forEach(([key, field]) => {
+    field.addEventListener('input', () => {
+      if (checkboxFactura.checked) {
+        hiddenFields[key].value = field.value;
+      }
+
+      if (field.value.trim() !== '') {
+        field.parentElement.classList.remove('invalid');
+      }
+
+      if (key === "Rut") {
+        if (checkRut(field.value)) {
+          field.parentElement.classList.remove('invalid');
+        } else {
+          field.parentElement.classList.add('invalid');
+        }
+      }
+    });
+  });
+
+  const rutInput = visibleFields["Rut"];
+  rutInput.addEventListener('input', () => {
+    let value = rutInput.value.replace(/[^0-9kK]/g, '').toUpperCase();
+    if (value.length > 1) {
+      value = value.slice(0, -1) + '-' + value.slice(-1);
+    }
+    rutInput.value = value;
+
+    if (checkRut(value)) {
+      rutInput.parentElement.classList.remove('invalid');
+    } else {
+      rutInput.parentElement.classList.add('invalid');
+    }
+
+    hiddenFields["Rut"].value = value;
+  });
+
+
+  const regionInput = visibleFields["Región"];
+  const comunaInput = visibleFields["Comuna"];
+
+  regionInput.addEventListener('change', e => {
+    const selectedCode = e.target.value;
+    if (!selectedCode) {
+      regionInput.parentElement.classList.add('invalid');
+      comunaInput.innerHTML = '<option value="">Selecciona una comuna</option>';
+      return;
+    }
+
+    regionInput.parentElement.classList.remove('invalid');
+
+    const region = regionesComunas.find(r => r.regionCode === selectedCode);
+    if (region && region.regionProvinces) {
+      comunaInput.innerHTML = region.regionProvinces
+        .map(p => `<option value="${p.displayName}">${p.displayName}</option>`)
+        .join('');
+    } else {
+      comunaInput.innerHTML = '<option value="">Comunas no disponibles</option>';
+    }
+
+    hiddenFields["Región"].value = selectedCode;
+    hiddenFields["Comuna"].value = '';
+  });
+
+  comunaInput.addEventListener('change', () => {
+    hiddenFields["Comuna"].value = comunaInput.value;
+    if (comunaInput.value) {
+      comunaInput.parentElement.classList.remove('invalid');
+    }
+  });
+
+
+form.addEventListener('submit', function (e) {
+
+  if (checkboxFactura.checked) {
+    let invalids = [];
+
+    Object.entries(visibleFields).forEach(([key, field]) => {
+      const value = field.value.trim();
+      if (!value || (key === "Rut" && !checkRut(value))) {
+        field.parentElement.classList.add('invalid');
+        invalids.push(key);
+      }
+    });
+
+    if (invalids.length > 0) {
+      e.preventDefault();
+      alert('Por favor, completa correctamente todos los campos requeridos para la factura.');
+    }
+  }
+});
+
+  // Validador RUT
+  function checkRut(rut) {
+    rut = rut.replace(/\./g, '').replace('-', '').toUpperCase();
+    if (!/^[0-9]+[0-9K]$/.test(rut)) return false;
+
+    const body = rut.slice(0, -1);
+    const dv = rut.slice(-1);
+
+    let sum = 0, multiplier = 2;
+    for (let i = body.length - 1; i >= 0; i--) {
+      sum += +body[i] * multiplier;
+      multiplier = multiplier === 7 ? 2 : multiplier + 1;
+    }
+
+    let expectedDV = 11 - (sum % 11);
+    expectedDV = expectedDV === 11 ? '0' : expectedDV === 10 ? 'K' : expectedDV.toString();
+
+    return dv === expectedDV;
+  }
+});
+
+
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.cart.name",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "display_on_card",
+      "label": "t:common.settings.display_on_card.label",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:common.settings.header_color"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "t:common.settings.color_scheme.label",
+      "options": [
+        {
+          "value": "primary",
+          "label": "t:common.options.primary.label"
+        },
+        {
+          "value": "secondary",
+          "label": "t:common.options.secondary.label"
+        },
+        {
+          "value": "tertiary",
+          "label": "t:common.options.tertiary.label"
+        },
+        {
+          "value": "quaternary",
+          "label": "t:common.options.quaternary.label"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "use_gradient_background",
+      "label": "t:common.settings.use_gradient_background.label"
+    }
+  ]
+}
+{% endschema %}

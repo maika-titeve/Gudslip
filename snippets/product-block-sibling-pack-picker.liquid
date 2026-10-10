@@ -1,0 +1,128 @@
+{% liquid
+  assign picker_label = block.settings.label | default: 'Pack' | strip
+  assign has_pack = false
+
+  assign pack_product_1 = block.settings.product_1
+  assign pack_label_1 = block.settings.label_1 | strip
+  assign pack_subtitle_1 = block.settings.subtitle_1 | strip
+  assign pack_badge_1 = block.settings.badge_1 | strip
+  assign pack_benefits_1 = block.settings.benefits_1 | newline_to_br | replace: '<br />', '<br>' | replace: '<br/>', '<br>' | split: '<br>'
+  if pack_product_1 != blank
+    assign has_pack = true
+    if pack_label_1 == blank
+      assign pack_label_1 = pack_product_1.title
+    endif
+  endif
+
+  assign pack_product_2 = block.settings.product_2
+  assign pack_label_2 = block.settings.label_2 | strip
+  assign pack_subtitle_2 = block.settings.subtitle_2 | strip
+  assign pack_badge_2 = block.settings.badge_2 | strip
+  assign pack_benefits_2 = block.settings.benefits_2 | newline_to_br | replace: '<br />', '<br>' | replace: '<br/>', '<br>' | split: '<br>'
+  if pack_product_2 != blank
+    assign has_pack = true
+    if pack_label_2 == blank
+      assign pack_label_2 = pack_product_2.title
+    endif
+  endif
+%}
+
+{% if has_pack %}
+  <div class="{{ block_base_classes }} mag-product-sibling-packs" {{ block.shopify_attributes }}>
+    {% if picker_label != blank %}
+      <p class="mag-product-sibling-packs-label">{{ picker_label }}</p>
+    {% endif %}
+
+    <div class="mag-product-sibling-packs-list" role="list">
+      {% for render_pass in (1..2) %}
+        {% for pack_index in (1..2) %}
+          {% liquid
+            assign pack_product = blank
+            assign pack_label = blank
+            assign pack_subtitle = blank
+            assign pack_badge = blank
+            assign pack_benefits = blank
+
+            case pack_index
+              when 1
+                assign pack_product = pack_product_1
+                assign pack_label = pack_label_1
+                assign pack_subtitle = pack_subtitle_1
+                assign pack_badge = pack_badge_1
+                assign pack_benefits = pack_benefits_1
+              when 2
+                assign pack_product = pack_product_2
+                assign pack_label = pack_label_2
+                assign pack_subtitle = pack_subtitle_2
+                assign pack_badge = pack_badge_2
+                assign pack_benefits = pack_benefits_2
+            endcase
+
+            assign should_render = false
+            assign is_active = false
+            if pack_product != blank and pack_product.handle == product.handle
+              assign is_active = true
+            endif
+            if pack_product != blank
+              if render_pass == 1 and is_active
+                assign should_render = true
+              elsif render_pass == 2 and is_active == false
+                assign should_render = true
+              endif
+            endif
+
+            assign pack_variant = pack_product.selected_or_first_available_variant
+            assign discount_percent = 0
+            if pack_variant.compare_at_price > pack_variant.price
+              assign discount_percent = pack_variant.compare_at_price | minus: pack_variant.price | times: 100 | divided_by: pack_variant.compare_at_price | round
+            endif
+            if pack_badge == blank and discount_percent > 0
+              assign pack_badge = discount_percent | append: '% OFF'
+            endif
+          %}
+
+          {% if should_render %}
+            <div class="mag-product-sibling-pack-wrap" role="listitem">
+              {% if is_active %}
+                <span class="mag-product-sibling-pack is-active" aria-current="true">
+              {% else %}
+                <a class="mag-product-sibling-pack" href="{{ pack_product.url }}">
+              {% endif %}
+                  <span class="mag-product-sibling-pack-radio" aria-hidden="true"></span>
+                  <span class="mag-product-sibling-pack-main">
+                    <span class="mag-product-sibling-pack-title">{{ pack_label }}</span>
+                    {% if pack_subtitle != blank %}
+                      <span class="mag-product-sibling-pack-subtitle">{{ pack_subtitle }}</span>
+                    {% endif %}
+                    {% if pack_benefits != blank %}
+                      <span class="mag-product-sibling-pack-benefits">
+                        {% for benefit in pack_benefits %}
+                          {% assign benefit_clean = benefit | strip %}
+                          {% if benefit_clean != blank %}
+                            <span>{{ benefit_clean }}</span>
+                          {% endif %}
+                        {% endfor %}
+                      </span>
+                    {% endif %}
+                  </span>
+                  <span class="mag-product-sibling-pack-price">
+                    <span class="mag-product-sibling-pack-current">{{ pack_variant.price | money }}</span>
+                    {% if pack_variant.compare_at_price > pack_variant.price %}
+                      <span class="mag-product-sibling-pack-compare">{{ pack_variant.compare_at_price | money }}</span>
+                    {% endif %}
+                  </span>
+              {% if is_active %}
+                </span>
+              {% else %}
+                </a>
+              {% endif %}
+              {% if pack_badge != blank %}
+                <span class="mag-product-sibling-pack-badge">{{ pack_badge }}</span>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}

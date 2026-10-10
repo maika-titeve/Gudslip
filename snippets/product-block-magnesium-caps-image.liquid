@@ -1,0 +1,28 @@
+<div
+  class="{{ block_base_classes }} mag-product-caps"
+  {{ block.shopify_attributes }}
+  style="
+    --mag-product-caps-image-width-mobile: {{ block.settings.image_width_mobile | default: 112 }}px;
+    --mag-product-caps-image-width-desktop: {{ block.settings.image_width_desktop | default: 180 }}px;
+  "
+>
+  <div class="mag-product-caps-card">
+    <div class="mag-product-caps-media">
+      {% if block.settings.image != blank %}
+        {{ block.settings.image | image_url: width: 1000 | image_tag: loading: 'lazy' }}
+      {% else %}
+        {{ 'image' | placeholder_svg_tag: 'mag-product-caps-placeholder' }}
+      {% endif %}
+    </div>
+    {% if block.settings.title != blank or block.settings.text != blank %}
+      <div class="mag-product-caps-body">
+        {% if block.settings.title != blank %}
+          <h3 class="mag-product-caps-title">{{ block.settings.title }}</h3>
+        {% endif %}
+        {% if block.settings.text != blank %}
+          <div class="mag-product-caps-text rte">{{ block.settings.text }}</div>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</div>

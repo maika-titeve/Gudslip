@@ -1,0 +1,103 @@
+{%- liquid
+  assign icon_name = block.settings.icon | default: 'truck'
+  assign icon_image = block.settings.image
+  assign use_image = false
+  if icon_image != blank
+    assign use_image = true
+  endif
+-%}
+
+<div
+  class="{{ block_base_classes }} mag-product-icon-richtext {{ block.settings.text_align }}"
+  {% if block.settings.enable_popup %}
+    x-data='ThemeComponent_PopUp({{ block.id | json }})'
+    x-init="mounted()"
+    data-color-scheme="{{ section.settings.color_scheme | default: 'primary' }}"
+  {% endif %}
+  {{ block.shopify_attributes }}
+>
+  <span class="mag-product-icon-richtext-media {% if use_image %}is-image{% else %}is-native{% endif %}" aria-hidden="true">
+    {%- if use_image -%}
+      {{
+        icon_image
+        | image_url: width: 96
+        | image_tag:
+          loading: 'lazy',
+          widths: '48,96',
+          class: 'mag-product-icon-richtext-image'
+      }}
+    {%- else -%}
+      <span class="mag-product-icon-richtext-native">
+        {% render 'theme-icon', icon: icon_name %}
+      </span>
+    {%- endif -%}
+  </span>
+
+  <div class="mag-product-icon-richtext-body">
+    <div class="mag-product-icon-richtext-content rte">
+      {{ block.settings.content }}
+    </div>
+
+    {% if block.settings.enable_popup %}
+      <div class="mag-product-icon-richtext-popup">
+        <button
+          type="button"
+          class="mag-product-icon-richtext-popup-trigger"
+          @click="openButton"
+          x-ref="trigger"
+          aria-haspopup="dialog"
+        >
+          {{ block.settings.popup_trigger_label | default: 'Mas informacion' }}
+        </button>
+      </div>
+
+      <template x-teleport="body">
+        <div x-data x-show="$store['ThemePopUp_{{ block.id }}'].open" data-color-scheme="{{ section.settings.color_scheme | default: 'primary' }}">
+          <div
+            x-ref="modal"
+            id="ThemePopUp_{{ block.id }}"
+            class="product-popup-modal fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center p-4 lg:p-24 z-product-modal"
+            x-cloak
+          >
+            <div
+              class="p-4 lg:p-8 border-section border-border bg-scheme-background text-scheme-text w-full max-w-2xl relative max-h-full overflow-auto z-10"
+              role="dialog"
+              aria-label="{{ block.settings.popup_title | default: block.settings.popup_trigger_label }}"
+              aria-modal="true"
+              tabindex="-1"
+            >
+              <button
+                id="ThemePopUp_{{ block.id }}_CloseBtn"
+                x-ref="close"
+                @click="$store['ThemePopUp_{{ block.id }}'].open = false"
+                type="button"
+                class="block p-1 w-8 ml-auto absolute top-2 right-2"
+                autofocus
+              >
+                <span class="visually-hidden">{{ 'general.accessibility.close_modal' | t }}</span>
+                <span class="inline-block w-6 h-6">{% render 'icon-close' %}</span>
+              </button>
+              <div class="product-popup-modal__content-info">
+                {% if block.settings.popup_title != blank %}
+                  <h2 class="font-heading text-2xl">{{ block.settings.popup_title }}</h2>
+                {% endif %}
+                <div class="rte mt-6">{{ block.settings.popup_content }}</div>
+              </div>
+            </div>
+            <div
+              @click="$store['ThemePopUp_{{ block.id }}'].open = false"
+              role="button"
+              class="absolute top-0 right-0 bottom-0 left-0 z-0 w-full h-full bg-scheme-text/75"
+            ></div>
+          </div>
+        </div>
+      </template>
+    {% endif %}
+  </div>
+</div>
+
+{% if block.settings.enable_popup %}
+  {% unless request.design_mode %}
+    <script src="{{ 'modules-popup.bundle.min.js' | asset_url }}" type="module"></script>
+  {% endunless %}
+{% endif %}

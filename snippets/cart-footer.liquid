@@ -1,0 +1,222 @@
+<div
+  x-data="ThemeModule_CartFooter"
+  data-cart-footer
+>
+  {% if cart != empty %}
+    <div class="border-t-section border-scheme-text {% if template == 'cart' %}pt-5 lg:pt-10{% else %} pt-2.5 lg:pt-5 {% endif %}">
+      <div class="grid grid-cols-14 gap-2  {% if template == 'cart' %} max-w-5xl mx-auto {% endif %}">
+        {% if template == 'cart' and settings.cart_notes_enable %}
+          <div class="col-span-14 md:col-span-6 md:row-span-3">
+            <label class="block text-sm" for="CartSpecialInstructions">{{ 'cart.general.note' | t }}</label>
+            <textarea
+              name="note"
+              id="CartSpecialInstructions"
+              class="block mt-2.5 mb-2 p-2 w-full input transition-opacity"
+              :class="{ 'opacity-50 cursor-progress' : updating }"
+              :readonly="updating"
+              x-data="ThemeModule_CartNote"
+              @change="updateNote"
+              @keyup.debounce.750ms="$dispatch('change')"
+            >
+              {{- cart.note -}}
+            </textarea>
+          </div>
+        {% endif %}
+        <div class="col-span-14 {% if template == 'cart' %} md:col-span-6 md:col-end-last {% endif %} form-area">
+{% assign mostrar_selector = false %}
+
+{% for item in cart.items %}
+  {% if item.product.tags contains "b2b" %}
+    {% assign mostrar_selector = true %}
+  {% endif %}
+{% endfor %}
+
+
+{%if template contains 'cart' %}
+
+<div class="invoice-area">
+
+
+{% if mostrar_selector %}
+  <div class="cart_options corporate-cart-options">
+ <div class="is-a-gift">
+    <label>Indícanos si necesitas boleta o factura</label>
+  </div>
+
+  <div class="checkbox-group">
+    <p class="cart-attribute__field">
+      <input
+        id="first5"
+        class="styled-checkbox add-boleta"
+        type="checkbox"
+        name="attributes[Boleta/Factura]"
+        value="Boleta"
+      >
+      <label for="first5">Boleta</label>
+    </p>
+
+    <p class="cart-attribute__field">
+      <input
+        id="first6"
+        class="styled-checkbox add-factura"
+        type="checkbox"
+        name="attributes[Boleta/Factura]"
+        value="Factura"
+        checked
+      >
+      <label for="first6">Factura</label>
+    </p>
+  </div>
+
+  <div class="factura-container">
+    <p>Necesitamos los siguientes datos para generar su factura</p>
+    <br>
+
+    <div class="form-group boleta-factura--input" id="group-rut">
+      <label for="rutInput">RUT</label>
+      <input type="text" name="attributes[Rut]" id="rutInput" placeholder="11222333-1">
+      <div class="error-message">Escribe el RUT sin puntos y con guión</div>
+    </div>
+
+    <div class="form-group boleta-factura--input" id="group-giro">
+      <label for="giroInput">Giro</label>
+      <input type="text" name="attributes[Giro]" id="giroInput">
+      <div class="error-message">Se necesita el giro para generar su factura</div>
+    </div>
+
+    <div class="form-group boleta-factura--input" id="group-razon">
+      <label for="razonSocialInput">Razón social</label>
+      <input type="text" name="attributes[Razón social]" id="razonSocialInput">
+      <div class="error-message">Necesitamos su razón social para generar su factura</div>
+    </div>
+
+    <div class="form-group boleta-factura--input" id="group-direccion">
+      <label for="addressInput">Dirección</label>
+      <input type="text" name="attributes[Dirección]" id="addressInput">
+      <div class="error-message">La dirección es requerida para su factura</div>
+    </div>
+
+    <div class="form-group boleta-factura--input" id="group-region">
+      <label for="regionInput">Región</label>
+      <select name="attributes[Región]" id="regionInput">
+        <option value="">Elige una región</option>
+        <option value="RM">Metropolitana de Santiago</option>
+        <option value="TA">Tarapacá</option>
+        <option value="AN">Antofagasta</option>
+        <option value="AT">Atacama</option>
+        <option value="CO">Coquimbo</option>
+        <option value="VS">Valparaíso</option>
+        <option value="LI">Libertador General Bernardo O'Higgins</option>
+        <option value="ML">Maule</option>
+        <option value="BI">Biobío</option>
+        <option value="AR">La Araucanía</option>
+        <option value="LL">Los Lagos</option>
+        <option value="AI">Aysén del General Carlos Ibáñez del Campo</option>
+        <option value="MA">Magallanes y de la Antártica Chilena</option>
+        <option value="LR">Los Ríos</option>
+        <option value="AP">Arica y Parinacota</option>
+        <option value="NB">Ñuble</option>
+      </select>
+      <div class="error-message">La región es requerida para su factura</div>
+    </div>
+
+    <div class="form-group boleta-factura--input" id="group-comuna">
+      <label for="comunaInput">Comuna</label>
+      <select name="attributes[Comuna]" id="comunaInput"></select>
+      <div class="error-message">La comuna es requerida para su factura</div>
+    </div>
+
+    <div class="form-group boleta-factura--input" id="group-email">
+      <label for="emailInput">Correo electrónico</label>
+      <input type="email" name="attributes[Correo]" id="emailInput">
+      <div class="error-message">El correo ingresado no es válido</div>
+    </div>
+  </div>
+</div>
+
+
+{% endif %}
+
+  </div>
+
+{% endif %}
+
+
+          <dl class="grid grid-cols-2 {% if template == 'cart' %} md:grid-cols-5 {% endif %} text-right items-center">
+            {%- for discount_application in cart.cart_level_discount_applications -%}
+              <div class="inline-block bg-scheme-accent-1 text-scheme-accent-1-overlay p-1 rounded-button col-span-full lg:col-span-full lg:col-start-2 flex justify-between -mx-1">
+                <dt class=" {% if template == 'cart' %} md:col-span-3 {% endif %}">
+                  <span class="sr-only">{{ 'customer.order.discount' | t }}:</span><span>{{- discount_application.title -}}</span>
+                </dt>
+                <dd class="{% if template == 'cart' %} md:col-span-2 {% endif %}">
+                  -{{ discount_application.total_allocated_amount | money }}
+                </dd>
+              </div>
+            {%- endfor -%}
+            <dt class="text-left {% if template == 'cart' %} md:col-span-3 {% endif %}">{{ 'cart.general.subtotal' | t }}</dt>
+            <dd class="{% if template == 'cart' %} md:col-span-2 {% endif %}">{{ cart.total_price | money_with_currency }}</dd>
+          </dl>
+        </div>
+
+
+
+        <div class="col-span-14 row-start-3 {% if template == 'cart' %} md:row-start-2 md:col-span-6 md:col-end-last {% endif %}">
+          <div class="relative z-10">
+
+
+
+
+
+
+
+
+            <input class="no-js block ml-auto cursor-pointer px-5 py-2.5 border border-scheme-text" type="submit" name="update" value="{{ 'cart.general.update' | t }}" form="cart">
+
+
+           
+
+
+            
+            <div class="push-btn inline-block relative w-full {% if template == 'cart' %} lg:mt-2.5 {% endif %}">
+
+
+                  {% if mostrar_selector and template != 'cart' %}
+              <input class="push-btn-surface block ml-auto cursor-pointer w-full cart__checkout-button " type="submit" name="cart" value="Ver carrito" form="cart" style="background:#000">
+                  {% else %}
+              <input class="push-btn-surface block ml-auto cursor-pointer w-full cart__checkout-button " type="submit" name="checkout" value="{{ 'cart.general.checkout' | t }}" form="cart" style="background:#000">
+
+                  {% endif %}
+           
+            </div>
+
+
+             {% assign compra_minima_b2b = 200000 | times: 100 %}
+
+            {% if cart.total_price < compra_minima_b2b and mostrar_selector and template == 'cart' %}
+              <p class="cart-warning" style="color: #ff2929;font-weight: 400;padding: 15px 0px;line-height: 1.5;">
+                Este es un pedido B2B. El monto mínimo de compra es de $200.000.  
+                Agrega más productos para continuar con tu compra.
+              </p>
+              <style>
+                .cart__checkout-button { pointer-events: none; opacity: 0.5; }
+              </style>
+            {% endif %}
+
+
+          </div>
+
+
+
+
+          {%- if additional_checkout_buttons and template == 'cart' and settings.enable_accelerated_checkout -%}
+            <div class="mt-2.5 lg:mt-5 cart__dynamic-checkout-buttons additional-checkout-buttons">
+              {{ content_for_additional_checkout_buttons }}
+            </div>
+          {%- endif -%}
+
+        </div>
+      </div>
+      <div class="empty:hidden inline-block bg-scheme-accent-1 text-scheme-accent-1-overlay p-1 rounded-button" id="cart-errors"></div>
+    </div>
+  {% endif %}
+</div>

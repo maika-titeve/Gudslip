@@ -1,0 +1,145 @@
+<div id="qab_container top_main" style="transition: height linear 300ms; display: block; color: inherit;">
+  <div id="qab_background" style="opacity: 1; margin: 0px; padding: 0px; left: 0px; height: auto; width: 100%; z-index: 1000000; position: relative; overflow: hidden;">
+    <div id="qab_bar" style="text-align: center; margin: 0px; padding: 12px 0px; left: 0px; height: auto; width: 100%; box-sizing: border-box; border: none; background-color: {{ section.settings.bg }}; color: {{ section.settings.color }}; font-size: 12px; line-height: 15px; font-family: inherit;">
+      <div class="cat_main">
+        <a href="{{ section.settings.link1 }}">
+          {% if section.settings.image1 != blank %}<img src="{{ section.settings.image1 | img_url:"master" }}">{% endif %} {{ section.settings.text1 }}
+        </a>
+        <a href="{{ section.settings.link2 }}">
+         {% if section.settings.image2 != blank %}<img src="{{ section.settings.image2 | img_url:"master" }}">{% endif %} {{ section.settings.text2 }}
+        </a>
+      </div>
+      <div id="qab_content" style="text-align: center; display: inline-block; width: 100%; font-size: 12px;">
+        <span id="qab_message" style="color: inherit; font-size: 12px;">{{ section.settings.text }}</span>
+        
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  #qab_container#top_main{
+    display:block!important
+  }
+  #qab_container{
+    display:none!important
+  }
+  #qab_bar{
+    display: flex;
+    align-items: center;
+    padding: 12px 40px !important;
+        position: relative;
+  }
+  .cat_main {
+    display: flex;
+    align-items: center;
+}
+  .cat_main a{
+        display: flex;
+    align-items: center;
+        width: max-content;
+            border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    background-color: blue;
+    margin-bottom: -1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    margin-right: 1rem;
+  }
+ .cat_main img{
+     width: 100px; 
+       margin-right: 10px;
+  }
+  #qab_content{
+        position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  @media(max-width:767px){
+    #qab_bar {
+    flex-direction: column-reverse;
+}
+    #qab_content {
+    position: unset;
+    transform: unset;
+    margin-bottom: 10px;
+}
+    .cat_main img {
+    width: 75px;
+}
+    #qab_bar {
+    padding: 12px 20px !important;
+    }
+    .cat_main {
+    width: 100%;
+    justify-content: flex-start;
+}
+  }
+</style>
+
+{% schema %}
+  {
+    "name": "Top Bar",
+    "settings": [
+              {
+					"type" : "text",
+					"id"  :"text1",
+					"label" : "Button 1 Label"
+				},
+                {
+					"type" : "url",
+					"id"  :"link1",
+					"label" : "Button 1 Link"
+				},
+                {
+					"type" : "image_picker",
+					"id"  :"image1",
+					"label" : "Icon 1"
+				},
+                {
+					"type" : "text",
+					"id"  :"text2",
+					"label" : "Button 2 Label"
+				},
+                {
+					"type" : "url",
+					"id"  :"link2",
+					"label" : "Button 2 Link"
+				},
+                {
+					"type" : "image_picker",
+					"id"  :"image2",
+					"label" : "Icon 2"
+				},
+				{
+					"type" : "text",
+					"id"  :"text",
+					"label" : "Enter Text"
+				},
+				{
+					"type" : "color",
+					"id"  :"bg",
+					"label" : "Background",
+					"default" : "#fff"
+				},
+               {
+					"type" : "color",
+					"id"  :"color",
+					"label" : "Color",
+					"default" : "#000"
+				}
+
+				],
+"presets": [{
+          "name": "Top Bar"
+}]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

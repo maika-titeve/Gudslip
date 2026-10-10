@@ -1,0 +1,44 @@
+<div class="{{ block_base_classes }} mag-product-doctor" {{ block.shopify_attributes }}>
+  <div class="mag-product-doctor-card">
+    <div class="mag-product-doctor-media">
+      {% if block.settings.image != blank %}
+        {{ block.settings.image | image_url: width: 760 | image_tag: loading: 'lazy' }}
+      {% else %}
+        {{ 'image' | placeholder_svg_tag: 'mag-product-doctor-placeholder' }}
+      {% endif %}
+    </div>
+    <div class="mag-product-doctor-content">
+      {% if block.settings.kicker != blank %}
+        <p class="mag-product-doctor-kicker">{{ block.settings.kicker }}</p>
+      {% endif %}
+      {% if block.settings.title != blank %}
+        <h3 class="mag-product-doctor-title">{{ block.settings.title }}</h3>
+      {% endif %}
+      {% if block.settings.text != blank %}
+        <div class="mag-product-doctor-text rte">{{ block.settings.text }}</div>
+      {% endif %}
+      {% if block.settings.doctor_name != blank or block.settings.doctor_role != blank %}
+        <div class="mag-product-doctor-footer">
+          {% if block.settings.doctor_name != blank %}
+            <p class="mag-product-doctor-name">
+              {{ block.settings.doctor_name }}
+              {% if block.settings.show_verified_badge %}
+                <img
+                  class="mag-product-doctor-verified"
+                  src="https://cdn.shopify.com/s/files/1/0712/5342/6355/files/verificado.png?v=1785207539"
+                  alt="Verificado"
+                  loading="lazy"
+                  width="22"
+                  height="22"
+                >
+              {% endif %}
+            </p>
+          {% endif %}
+          {% if block.settings.doctor_role != blank %}
+            <p class="mag-product-doctor-role">{{ block.settings.doctor_role }}</p>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>

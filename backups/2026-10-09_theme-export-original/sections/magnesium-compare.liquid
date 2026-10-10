@@ -1,0 +1,132 @@
+{{ 'magnesium-clone.css' | asset_url | stylesheet_tag }}
+<section
+  class="mag-clone mag-compare"
+  data-color-scheme="{{ section.settings.color_scheme | default: 'primary' }}"
+  style="
+    --mag-compare-title-mobile: {{ section.settings.title_size_mobile | default: 46 }}px;
+    --mag-compare-title-desktop: {{ section.settings.title_size_desktop | default: 58 }}px;
+    --mag-compare-head-size: {{ section.settings.column_title_size | default: 40 }}px;
+    --mag-compare-chip-size: {{ section.settings.chip_text_size | default: 18 }}px;
+    --mag-compare-pill-good-mobile: {{ section.settings.good_pill_size_mobile | default: 176 }}px;
+    --mag-compare-pill-other-mobile: {{ section.settings.other_pill_size_mobile | default: 156 }}px;
+    --mag-compare-pill-good-desktop: {{ section.settings.good_pill_size_desktop | default: 220 }}px;
+    --mag-compare-pill-other-desktop: {{ section.settings.other_pill_size_desktop | default: 172 }}px;
+    --mag-compare-pill-offset-mobile: {{ section.settings.pill_offset_mobile | default: 36 }}%;
+    --mag-compare-pill-offset-desktop: {{ section.settings.pill_offset_desktop | default: 34 }}%;
+    --mag-compare-title-gap-mobile: {{ section.settings.title_gap_mobile | default: 72 }}px;
+    --mag-compare-title-gap-desktop: {{ section.settings.title_gap_desktop | default: 92 }}px;
+    --mag-compare-side-height-mobile: {{ section.settings.side_image_height_mobile | default: 420 }}px;
+    --mag-compare-side-height-desktop: {{ section.settings.side_image_height_desktop | default: 560 }}px;
+    --mag-compare-card-min-height-mobile: {{ section.settings.card_min_height_mobile | default: 520 }}px;
+    --mag-compare-card-min-height-desktop: {{ section.settings.card_min_height_desktop | default: 620 }}px;
+  "
+>
+  <div class="mag-wrap">
+    <div class="mag-compare-layout">
+      <aside class="mag-compare-side-image">
+        {% if section.settings.side_image != blank %}
+          {{ section.settings.side_image | image_url: width: 1400 | image_tag }}
+        {% else %}
+          {{ 'image' | placeholder_svg_tag: 'mag-compare-side-placeholder' }}
+        {% endif %}
+      </aside>
+
+      <div class="mag-compare-content">
+        {% if section.settings.title != blank %}<h2 class="mag-title mag-compare-title">{{ section.settings.title }}</h2>{% endif %}
+
+        <div class="mag-compare-cards">
+        <article class="mag-compare-card is-good">
+          <div class="mag-compare-col-image">
+            {% if section.settings.left_column_image != blank %}
+              {{ section.settings.left_column_image | image_url: width: 900 | image_tag }}
+            {% else %}
+              {{ 'image' | placeholder_svg_tag: 'mag-compare-pill-placeholder' }}
+            {% endif %}
+          </div>
+          <h3 class="mag-compare-head">{{ section.settings.left_title }}</h3>
+          <ul class="mag-compare-list" role="list">
+            {% for block in section.blocks %}
+              <li class="mag-compare-item" {{ block.shopify_attributes }}>
+                {% if block.settings.label != blank %}
+                  <p class="mag-compare-label">{{ block.settings.label }}</p>
+                {% endif %}
+                <p class="mag-compare-text is-chip">
+                  <span class="mag-compare-icon is-check" aria-hidden="true">✓</span>
+                  <span>{{ block.settings.left_text }}</span>
+                </p>
+              </li>
+            {% endfor %}
+          </ul>
+        </article>
+
+        <article class="mag-compare-card is-other">
+          <div class="mag-compare-col-image">
+            {% if section.settings.right_column_image != blank %}
+              {{ section.settings.right_column_image | image_url: width: 900 | image_tag }}
+            {% else %}
+              {{ 'image' | placeholder_svg_tag: 'mag-compare-pill-placeholder' }}
+            {% endif %}
+          </div>
+          <h3 class="mag-compare-head">{{ section.settings.right_title }}</h3>
+          <ul class="mag-compare-list" role="list">
+            {% for block in section.blocks %}
+              <li class="mag-compare-item" {{ block.shopify_attributes }}>
+                {% if block.settings.label != blank %}
+                  <p class="mag-compare-label">{{ block.settings.label }}</p>
+                {% endif %}
+                <p class="mag-compare-text is-chip">
+                  <span class="mag-compare-icon is-x" aria-hidden="true">✕</span>
+                  <span>{{ block.settings.right_text }}</span>
+                </p>
+              </li>
+            {% endfor %}
+          </ul>
+        </article>
+        </div>
+
+        {% if section.settings.button_link != blank and section.settings.button_label != blank %}
+          <div class="mag-compare-cta-wrap">
+            <a class="mag-cta" href="{{ section.settings.button_link }}">{{ section.settings.button_label }}</a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Magnesium Compare",
+  "settings": [
+    {"type":"text","id":"title","label":"Title","default":"Gudslip vs otros magnesios"},
+    {"type":"range","id":"title_size_mobile","label":"Tamano titulo mobile","min":30,"max":58,"step":1,"default":46},
+    {"type":"range","id":"title_size_desktop","label":"Tamano titulo desktop","min":40,"max":80,"step":1,"default":58},
+    {"type":"range","id":"column_title_size","label":"Tamano titulo columnas","min":24,"max":60,"step":1,"default":40},
+    {"type":"range","id":"chip_text_size","label":"Tamano texto items","min":14,"max":24,"step":1,"default":18},
+    {"type":"range","id":"good_pill_size_mobile","label":"Tamano capsula Gudslip mobile","min":120,"max":240,"step":2,"default":176},
+    {"type":"range","id":"other_pill_size_mobile","label":"Tamano capsula Otros mobile","min":100,"max":220,"step":2,"default":156},
+    {"type":"range","id":"good_pill_size_desktop","label":"Tamano capsula Gudslip desktop","min":150,"max":300,"step":2,"default":220},
+    {"type":"range","id":"other_pill_size_desktop","label":"Tamano capsula Otros desktop","min":130,"max":260,"step":2,"default":172},
+    {"type":"range","id":"pill_offset_mobile","label":"Separacion capsula/titulo mobile (%)","min":20,"max":52,"step":1,"default":36},
+    {"type":"range","id":"pill_offset_desktop","label":"Separacion capsula/titulo desktop (%)","min":20,"max":52,"step":1,"default":34},
+    {"type":"range","id":"title_gap_mobile","label":"Espacio bajo titulo mobile","min":36,"max":110,"step":2,"default":72},
+    {"type":"range","id":"title_gap_desktop","label":"Espacio bajo titulo desktop","min":48,"max":140,"step":2,"default":92},
+    {"type":"range","id":"side_image_height_mobile","label":"Alto imagen grande mobile","min":280,"max":620,"step":10,"default":420},
+    {"type":"range","id":"side_image_height_desktop","label":"Alto imagen grande desktop","min":380,"max":900,"step":10,"default":560},
+    {"type":"range","id":"card_min_height_mobile","label":"Alto minimo tarjetas mobile","min":360,"max":760,"step":10,"default":520},
+    {"type":"range","id":"card_min_height_desktop","label":"Alto minimo tarjetas desktop","min":420,"max":860,"step":10,"default":620},
+    {"type":"image_picker","id":"left_column_image","label":"Imagen columna izquierda"},
+    {"type":"image_picker","id":"right_column_image","label":"Imagen columna derecha"},
+    {"type":"image_picker","id":"side_image","label":"Imagen grande izquierda"},
+    {"type":"text","id":"left_title","label":"Left column title","default":"Gudslip"},
+    {"type":"text","id":"right_title","label":"Right column title","default":"Otros magnesios"},
+    {"type":"url","id":"button_link","label":"Button link"},
+    {"type":"text","id":"button_label","label":"Button label","default":"Compra ahora"},
+    {"type":"select","id":"color_scheme","label":"Color scheme","options":[{"value":"primary","label":"Primary"},{"value":"secondary","label":"Secondary"},{"value":"tertiary","label":"Tertiary"},{"value":"quaternary","label":"Quaternary"}],"default":"primary"}
+  ],
+  "blocks": [
+    {"type":"row","name":"Row","settings":[{"type":"text","id":"label","label":"Label","default":"Tipo de magnesio"},{"type":"text","id":"left_text","label":"Left text","default":"Citrato + Bisglicinato"},{"type":"text","id":"right_text","label":"Right text","default":"Una sola forma"}]}
+  ],
+  "presets": [{"name":"Magnesium Compare","blocks":[{"type":"row"},{"type":"row"},{"type":"row"}]}]
+}
+{% endschema %}

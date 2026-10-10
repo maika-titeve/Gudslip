@@ -1,0 +1,130 @@
+<div class="{{ block_base_classes }}" {{ block.shopify_attributes }}>
+  <ul class="mag-product-checklist" role="list">
+    {%- liquid
+      assign item_1_text = block.settings.item_1_text | default: 'Reduce el estrés y los niveles de cortisol' | strip
+      assign item_2_text = block.settings.item_2_text | default: 'Mejora la concentración y la claridad mental' | strip
+      assign item_3_text = block.settings.item_3_text | default: 'Apoya el equilibrio emocional y físico' | strip
+    -%}
+
+    {%- if item_1_text != blank -%}
+      <li class="mag-product-checklist-item">
+        <span class="mag-product-checklist-icon {% if block.settings.item_1_icon_source == 'image' %}is-image{% else %}is-native{% endif %}" aria-hidden="true">
+          {%- if block.settings.item_1_icon_source == 'image' -%}
+            {%- if block.settings.item_1_image != blank -%}
+              {{
+                block.settings.item_1_image
+                | image_url: width: 80
+                | image_tag:
+                  loading: 'lazy',
+                  widths: '40,80',
+                  class: 'mag-product-checklist-image'
+              }}
+            {%- else -%}
+              <span class="mag-product-checklist-native-icon">
+                {% render 'theme-icon', icon: block.settings.item_1_icon, default: 'check-mark' %}
+              </span>
+            {%- endif -%}
+          {%- else -%}
+            <span class="mag-product-checklist-native-icon">
+              {% render 'theme-icon', icon: block.settings.item_1_icon, default: 'check-mark' %}
+            </span>
+          {%- endif -%}
+        </span>
+        <span class="mag-product-checklist-text">{{ item_1_text }}</span>
+      </li>
+    {%- endif -%}
+
+    {%- if item_2_text != blank -%}
+      <li class="mag-product-checklist-item">
+        <span class="mag-product-checklist-icon {% if block.settings.item_2_icon_source == 'image' %}is-image{% else %}is-native{% endif %}" aria-hidden="true">
+          {%- if block.settings.item_2_icon_source == 'image' -%}
+            {%- if block.settings.item_2_image != blank -%}
+              {{
+                block.settings.item_2_image
+                | image_url: width: 80
+                | image_tag:
+                  loading: 'lazy',
+                  widths: '40,80',
+                  class: 'mag-product-checklist-image'
+              }}
+            {%- else -%}
+              <span class="mag-product-checklist-native-icon">
+                {% render 'theme-icon', icon: block.settings.item_2_icon, default: 'check-mark' %}
+              </span>
+            {%- endif -%}
+          {%- else -%}
+            <span class="mag-product-checklist-native-icon">
+              {% render 'theme-icon', icon: block.settings.item_2_icon, default: 'check-mark' %}
+            </span>
+          {%- endif -%}
+        </span>
+        <span class="mag-product-checklist-text">{{ item_2_text }}</span>
+      </li>
+    {%- endif -%}
+
+    {%- if item_3_text != blank -%}
+      <li class="mag-product-checklist-item">
+        <span class="mag-product-checklist-icon {% if block.settings.item_3_icon_source == 'image' %}is-image{% else %}is-native{% endif %}" aria-hidden="true">
+          {%- if block.settings.item_3_icon_source == 'image' -%}
+            {%- if block.settings.item_3_image != blank -%}
+              {{
+                block.settings.item_3_image
+                | image_url: width: 80
+                | image_tag:
+                  loading: 'lazy',
+                  widths: '40,80',
+                  class: 'mag-product-checklist-image'
+              }}
+            {%- else -%}
+              <span class="mag-product-checklist-native-icon">
+                {% render 'theme-icon', icon: block.settings.item_3_icon, default: 'check-mark' %}
+              </span>
+            {%- endif -%}
+          {%- else -%}
+            <span class="mag-product-checklist-native-icon">
+              {% render 'theme-icon', icon: block.settings.item_3_icon, default: 'check-mark' %}
+            </span>
+          {%- endif -%}
+        </span>
+        <span class="mag-product-checklist-text">{{ item_3_text }}</span>
+      </li>
+    {%- endif -%}
+  </ul>
+</div>
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% render 'theme-icon', icon: block.settings.item_1_icon | default: 'check-mark'
+    %}"
+  to: "{% render 'theme-icon', icon: block.settings.item_1_icon, default: 'check-mark'
+    %}"
+  position: 1239..1321
+- from: "{% render 'theme-icon', icon: block.settings.item_1_icon | default: 'check-mark'
+    %}"
+  to: "{% render 'theme-icon', icon: block.settings.item_1_icon, default: 'check-mark'
+    %}"
+  position: 1468..1550
+- from: "{% render 'theme-icon', icon: block.settings.item_2_icon | default: 'check-mark'
+    %}"
+  to: "{% render 'theme-icon', icon: block.settings.item_2_icon, default: 'check-mark'
+    %}"
+  position: 2460..2542
+- from: "{% render 'theme-icon', icon: block.settings.item_2_icon | default: 'check-mark'
+    %}"
+  to: "{% render 'theme-icon', icon: block.settings.item_2_icon, default: 'check-mark'
+    %}"
+  position: 2689..2771
+- from: "{% render 'theme-icon', icon: block.settings.item_3_icon | default: 'check-mark'
+    %}"
+  to: "{% render 'theme-icon', icon: block.settings.item_3_icon, default: 'check-mark'
+    %}"
+  position: 3681..3763
+- from: "{% render 'theme-icon', icon: block.settings.item_3_icon | default: 'check-mark'
+    %}"
+  to: "{% render 'theme-icon', icon: block.settings.item_3_icon, default: 'check-mark'
+    %}"
+  position: 3910..3992
+{% endcomment %}

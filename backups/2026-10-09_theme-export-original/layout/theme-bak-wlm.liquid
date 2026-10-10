@@ -1,0 +1,406 @@
+<!doctype html>
+  <html class="no-js" lang="{{ request.locale.iso_code }}">
+    <head>
+      <!-- Google Tag Manager -->
+      <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+       j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-WQ5XV2FB');</script>
+      <!-- End Google Tag Manager -->
+      <meta name="facebook-domain-verification" content="xpbumg15k5972njhhs6buowyp0s9um" />
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta name="theme-color" content="">
+      <link rel="canonical" href="{{ canonical_url }}">
+      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+      <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+      <link rel="preconnect" href="https://fonts.shopify.com" crossorigin>
+      <link rel="preconnect" href="https://monorail-edge.shopifysvc.com">
+
+      {%- liquid
+        assign main_font = settings.type_main_font
+        assign main_font_bold = main_font | font_modify: 'weight', 'bold'
+        assign heading_font = settings.type_heading_font
+        assign accent_font = settings.type_accent_font
+      -%}
+
+      {%- if settings.favicon != blank -%}
+        <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: '32x32' }}">
+      {%- endif -%}
+
+      {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
+        <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+      {%- endunless -%}
+
+      <title>
+        {{ page_title }}
+        {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+        {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+        {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+      </title>
+
+      {% if page_description %}
+        <meta name="description" content="{{ page_description | escape }}">
+      {% endif %}
+
+      {%- render 'meta-tags' -%}
+
+      {{ content_for_header }}
+
+      {% render 'js-bridge' %}
+
+      <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+      <script>
+        function debounce(fn, wait) {
+          let t;
+          return (...args) => {
+            clearTimeout(t);
+            t = setTimeout(() => fn.apply(this, args), wait);
+          };
+        }
+      </script>
+      <script src="{{ 'utils.js' | asset_url }}" defer></script>
+      <script src="{{ 'global.bundle.min.js' | asset_url }}" type="module"></script>
+      <script src="{{ 'cart-count.js' | asset_url }}" type="module"></script>
+      {% if template == 'cart' or settings.cart_type == 'modal' %}
+        <script src="{{ 'cart-items.js' | asset_url }}" type="module"></script>
+        <script src="{{ 'cart-footer.js' | asset_url }}" type="module"></script>
+        {% if settings.cart_notes_enable %}
+          <script src="{{ 'cart-note.js' | asset_url }}" type="module"></script>
+        {% endif %}
+      {% endif %}
+      {% if request.design_mode %}
+        {% comment %} If theme editor, load all modules {% endcomment %}
+        <script src="{{ 'product.js' | asset_url }}" type="module"></script>
+        <script src="{{ 'modules-video.bundle.min.js' | asset_url }}" type="module"></script>
+        <script src="{{ 'background-video.js' | asset_url }}" type="module"></script>
+        <script src="{{ 'modules-background-video-yt.bundle.min.js' | asset_url }}" type="module"></script>
+        <script src="{{ 'video-with-text.js' | asset_url }}" type="module"></script>
+        <script src="{{ 'modules-slideshow.bundle.min.js' | asset_url }}" type="module"></script>
+        <script src="{{ 'vendor-product.bundle.min.js' | asset_url }}" type="module"></script>
+        <script src="{{ 'product-quick-buy.js' | asset_url }}" type="module"></script>
+        <script src="{{ 'header.js' | asset_url }}" type="module"></script>
+        <script src="{{ 'call-to-action-sticker.js' | asset_url }}" type="module"></script>
+        <script src="{{ 'sections-age-check.bundle.min.js' | asset_url }}" type="module"></script>
+        <script src="{{ 'filterable.js' | asset_url }}" type="module"></script>
+        <script src="{{ 'login.js' | asset_url }}" type="module"></script>
+        <script src="{{ 'modules-popup.bundle.min.js' | asset_url }}" type="module"></script>
+        <script src="{{ 'modules-predictive-search.bundle.min.js' | asset_url }}" type="module"></script>
+        <script src="{{ 'vendor-store-availability.bundle.min.js' | asset_url }}" type="module"></script>
+        <script src="{{ 'store-availability.js' | asset_url }}" type="module"></script>
+        <script src="{{ 'product-model.js' | asset_url }}" type="module"></script>
+        <script src="{{ 'modules-photoswipe.bundle.min.js' | asset_url }}" type="module"></script>
+        <script src="{{ 'shapes-animations.js' | asset_url }}" defer></script>
+        <script src="{{ 'offset-gallery-item.js' | asset_url }}" type="module"></script>
+        <script src="{{ 'sections-footer.bundle.min.js' | asset_url }}" type="module"></script>
+        <script src="{{ 'modules-quantity.bundle.min.js' | asset_url }}" type="module"></script>
+        <script src="{{ 'block-shape-divider.js' | asset_url }}" type="module"></script>
+        <script src="{{ 'gift-card-recipient.js' | asset_url }}" type="module"></script>
+        <script src="{{ 'curved-text.js' | asset_url }}" type="module"></script>
+        <script src="{{ 'free-shipping-bar.js' | asset_url }}" type="module"></script>
+        <script src="{{ 'theme-editor-support.js' | asset_url }}" type="module"></script>
+      {% endif %}
+      <script src="{{ 'alpine-extensions.js' | asset_url }}" defer></script>
+      <link rel="stylesheet" href="{{ 'base.bundle.css' | asset_url }}">
+      
+      <link rel="stylesheet" href="{{ 'custom.css' | asset_url }}">
+      
+      {% if template contains 'customers' %}
+        {% comment %}theme-check-disable ParserBlockingScriptTag{% endcomment %}
+        {{ "shopify_common.js" | shopify_asset_url | script_tag }}
+        {{ "customer_area.js" | shopify_asset_url | script_tag }}
+        {% comment %}theme-check-enable ParserBlockingScriptTag{% endcomment %}
+      {% endif %}
+      <style>
+        :root {
+          --max-site-width: 1820px;
+        }
+      </style>
+      {% style %}
+        {{ main_font | font_face: font_display: 'swap' }}
+        {{ heading_font | font_face: font_display: 'swap' }}
+        {{ accent_font | font_face: font_display: 'swap' }}
+
+        {%- liquid
+          assign main_font_bolder = main_font | font_modify: 'weight', 'bolder'
+          assign main_font_italic = main_font | font_modify: 'style', 'italic'
+          assign main_font_bold_italic = main_font_bold | font_modify: 'style', 'italic'
+          if main_font_bold
+            echo main_font_bold | font_face: font_display: 'swap'
+          endif
+          if main_font_italic
+            echo main_font_italic | font_face: font_display: 'swap'
+          endif
+          if main_font_bold_italic
+            echo main_font_bold_italic | font_face: font_display: 'swap'
+          endif
+          if main_font_bolder
+            echo main_font_bolder | font_face: font_display: 'swap'
+          endif
+        -%}
+
+        {% if settings.heading_uppercase -%}
+          {%- capture heading_capitalize -%}uppercase{%- endcapture -%}
+        {% else -%}
+          {%- capture heading_capitalize -%}none{%- endcapture -%}
+        {% endif -%}
+        {%- capture heading_letterspacing -%}{{ settings.heading_letterspacing | divided_by: 1000.0 }}{% unless settings.heading_letterspacing == 0 -%}em{% endunless -%}{%- endcapture -%}
+
+        :root {
+          --heading-font-stack: {{ heading_font.family }}, {{ heading_font.fallback_families }};
+          --heading-font-weight: {{ heading_font.weight }};
+          --heading-font-style: {{ heading_font.style }};
+          --heading-letterspacing: {{ heading_letterspacing }};
+          --heading-capitalize: {{ heading_capitalize }};
+          --main-font-stack: {{ main_font.family }}, {{ main_font.fallback_families }};
+          --main-font-weight: {{ main_font.weight }};
+          --main-font-style: {{ main_font.style }};
+          --accent-font-stack: {{ accent_font.family }}, {{ accent_font.fallback_families }};
+          --accent-font-weight: {{ accent_font.weight }};
+          --accent-font-style: {{ accent_font.style }};
+        }
+      {% endstyle %}
+      {%- render 'css-variables' %}
+
+      {% comment %}theme-check-disable MissingTemplate{% endcomment %}
+      {% render 'critical-css' %}
+      {% comment %}theme-check-enable MissingTemplate{% endcomment %}
+      <style id="manual-critical-css">
+        [x-cloak] {
+          display: none;
+        }
+        [data-parallax-container] {
+          will-change: opacity;
+          opacity: 0;
+          transition: opacity 0.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+        .no-js [data-parallax-container],
+        [data-parallax-container].animated {
+          opacity: 1;
+        }
+
+        @media (prefers-reduced-motion) {
+          [data-parallax-container] {
+            opacity: 1;
+          }
+        }
+      </style>
+
+      {% # theme-check-disable %}
+      {% unless heading_font.system? %}
+        <link rel="preload" as="font" href="{{ heading_font | font_url }}" type="font/woff2" crossorigin>
+      {% endunless %}
+      {% unless main_font.system? %}
+        <link rel="preload" as="font" href="{{ main_font | font_url }}" type="font/woff2" crossorigin>
+      {% endunless %}
+      {% # theme-check-enable %}
+      <script>
+        window.onYouTubeIframeAPIReady = () => {
+          document.body.dispatchEvent(new CustomEvent('youtubeiframeapiready'));
+        };
+      </script>
+    <script>
+      {{product | json}}
+    </script>
+    
+</head>
+
+    <body data-color-scheme="primary" class="{% if page.template_suffix == 'gudsport' %}gudsport{% endif %}">
+      <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WQ5XV2FB"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+      {% comment %}theme-check-enable LiquidTag{% endcomment %}
+      {%- if settings.show_on_sale_badge -%}
+      {%- render 'static-sticker-defs', shape: settings.on_sale_badge_shape, id: 'on-sale' -%}
+      {%- endif -%}
+      {%- if settings.show_sold_out_badge -%}
+      {%- render 'static-sticker-defs', shape: settings.sold_out_badge_shape, id: 'sold-out' -%}
+      {%- endif -%}
+      {%- render 'static-sticker-defs', shape: settings.metafield_badge_shape, id: 'metafield-badge' -%}
+      {% comment %}theme-check-enable MissingTemplate{% endcomment %}
+
+      {% comment %}theme-check-disable MissingTemplate{% endcomment %}
+      <a class="skip-link" href="#MainContent">{{ "general.accessibility.skip_to_content" | t }}</a>
+      {%- sections 'header-group' -%}
+      {% render 'header-group-support' %}
+      <main id="MainContent" class="overflow-hidden {{ template }}">
+        {{ content_for_layout }}
+      </main>
+<div class="empty_space" style="background-color: #fff;
+    height: 200px;"></div>
+      {%- sections 'footer-group' -%}
+      {%- sections 'overlay-group' -%}
+
+      <div id="screenreader-announce" class="sr-only" aria-live="polite" role="status"></div>
+
+      <ul hidden>
+        <li id="a11y-refresh-page-message">{{ 'general.accessibility.refresh_page' | t }}</li>
+        <li id="a11y-selection-message">{{ 'general.accessibility.selection_help' | t }}</li>
+      </ul>
+
+      {% comment %} Modal containers {% endcomment %}
+      {% render 'left-drawer' %}
+      {% render 'right-drawer' %}
+      {% render 'modal' %}
+      <script src="{{ 'modals.js' | asset_url }}" type="module"></script>
+
+      {% comment %}theme-check-disable LiquidTag{% endcomment %}
+      {%- if settings.cart_type == 'modal' -%}
+      {% render 'drawer-cart' %}
+      {%- endif -%}
+      <style>
+        .variants_option_custom {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            color:#000;
+        }
+        .variants_option_custom_option {
+            background-color: transparent;
+            border-radius: 10px;
+            position:relative;
+            box-shadow: 0 0 0 1px #000;
+        }
+        .variants_option_top {
+            display: flex;
+            justify-content: space-between;
+            padding:10px 20px;
+            z-index: 2;
+            position: relative;
+        }
+        .variants_option_title {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .variants_option_bottom {
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #000;
+            padding: 5px 20px;
+            z-index: 2;
+            position: relative;
+        }
+        .variants_option_custom_option input{
+           display:none;
+        }
+        .variants_option_custom_option input + .variants_option_custom_option_content .variants_option_title label:first-child{
+          width: 30px;
+          height: 30px;
+          display: block;
+          border-radius: 100%;
+          background: #fff;
+          border: 1px solid #000;
+          cursor: pointer;
+          position:relative;
+        }
+        .variants_option_custom_option input:checked + .variants_option_custom_option_content .variants_option_title label:first-child::after{
+          content:"";
+          position:absolute;
+          top:50%;
+          left:50%;
+          transform:translate(-50%,-50%);
+          background-image:url('https://cdn.shopify.com/s/files/1/0823/2776/5315/files/tick_1.png?v=1717619004');
+          background-size:20px 20px;
+          background-repeat:no-repeat;
+          width: 18px;
+          height: 18px;
+        }
+        .variants_option_custom_option input:checked + .variants_option_custom_option_content::after{
+          content:'';
+          position:absolute;
+          width: 100%;
+          height: 100%;
+          background: #f8f4f4;
+          box-shadow: 0 0 0 1px #000;
+          left: 0;
+          top: 0;
+          border-radius: 10px;
+        }
+        .variants_option_save_percentage {
+          background: #0b173c;
+          color: #fff !important;
+          height: fit-content;
+          padding: 5px 10px;
+          border-radius: 10px;
+      }
+      .variants_option_price{
+           text-align: right !important;
+        }
+      .variants_option_save_text {
+          text-align: right !important;
+          color: #98a124 !important;
+      }
+      .variants_option_bottom p:last-child{
+         color: #98a124; 
+      }
+        .shopify-pc__banner__dialog{
+          left: 0!important;
+          width: 100%!important;
+          min-width: 100%!important;
+        }
+        #shopify-pc__banner__btn-decline{
+          display:none!important;
+        }
+        .shopify-pc__banner__wrapper {
+            flex-direction: row!important;
+        }
+        .shopify-pc__banner__btns {
+    width: 40%!important;
+        }
+        #shopify-pc__banner__btn-manage-prefs, #shopify-pc__banner__btn-accept{
+          font-size:12px!important;
+        }
+        button#shopify-pc__prefs__header-decline {
+    display: none!important;
+}
+        @media(max-width:767px){
+          .shopify-pc__banner__wrapper {
+            flex-direction: column!important;
+        }
+           .shopify-pc__banner__btns {
+    width: 100%!important;
+        }
+        }
+      </style>
+
+    <script>
+(function(){
+  // 1) Convierte "24990" en "$24.990"
+  function formatCLP(el) {
+    const raw = el.textContent.replace(/[^\d]/g, '');
+    const num = parseInt(raw, 10);
+    if (!isNaN(num)) {
+      el.textContent = new Intl.NumberFormat('es-CL', {
+        style: 'currency',
+        currency: 'CLP',
+        minimumFractionDigits: 0
+      }).format(num);
+    }
+  }
+
+  // 2) Aplica el formateo a los precios de WideBundle
+  function applyWideBundleFormatting() {
+    document.querySelectorAll(
+      '.first-price-WB, .second-price-WB, .crossed-price-WB'
+    ).forEach(formatCLP);
+  }
+
+  // 3) Al cargar y luego cada 500 ms, reaplica el formateo
+  document.addEventListener('DOMContentLoaded', () => {
+    applyWideBundleFormatting();
+    setInterval(applyWideBundleFormatting, 500);
+  });
+})();
+</script>
+
+    </body>
+
+
+
+
+    
+  </html>

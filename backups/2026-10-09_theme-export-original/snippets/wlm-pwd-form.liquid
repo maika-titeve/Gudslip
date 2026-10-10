@@ -1,0 +1,31 @@
+<div id="wlm-pwd-form" style="display: none;">
+  <div id="wlm-wrapper">
+    {% unless wlmPwdMsg == "" %}
+      <div id="wlm-pwd-msg">
+        {{ wlmPwdMsg }}
+      </div>
+    {% endunless %}
+
+    <!-- Texto personalizado -->
+    <div class="wlm-pwd-info" style="margin-bottom: 1.5rem;">
+      <h2 style="font-weight: bold; font-size: 1.2rem;">Bienvenido a Gudslip Mayorista</h2>
+      <p style="font-size: 0.95rem; margin-top: 0.5rem;">
+        Introduce tu clave para habilitar precios especiales.<br>
+        Recuerda: el pedido debe superar $200.000.
+        ¿Necesitas clave?
+        <a href="mailto:contacto@gudslipchile.cl">Contáctanos aquí</a>.
+      </p>
+    </div>
+
+    <div class="wlm-form-holder" style="justify-content:center">
+      <input type="password" placeholder="Ingresa tu clave" id="wlm-pwd"
+        onkeypress='if( event.keyCode == 13 && typeof wlm == "object" && typeof wlm.unlockByAuth == "function" ) { event.preventDefault(); wlm.unlockByAuth(this); }' />
+      <a href="javascript:void(0);" id="wlm-pwd-form-button"
+        onclick='if( typeof wlm == "object" && typeof wlm.unlockByAuth == "function" ) wlm.unlockByAuth(this);'>
+        Ingresar
+      </a>
+    </div>
+
+    <div id="wlm-pwd-error">Clave incorrecta</div>
+  </div>
+</div>

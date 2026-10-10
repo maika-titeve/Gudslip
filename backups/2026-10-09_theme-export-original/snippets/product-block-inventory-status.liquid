@@ -1,0 +1,56 @@
+{% assign inventory_variants = product.variants
+  | where: 'inventory_management', 'shopify'
+%}
+{% liquid
+  assign in_stock_label = block.settings.in_stock_label | strip
+  if in_stock_label == blank
+    assign in_stock_label = 'products.product.inventory_in_stock' | t
+  endif
+%}
+
+<div
+  class="{{ block_base_classes }} text-sm mag-product-inventory{% if block.settings.enable_status_dot_pulse %} has-dot-pulse{% endif %}"
+  style="--inventory-in-stock-color: {{ block.settings.in_stock_text_color | default: '#43B047' }}; --inventory-dot-color: {{ block.settings.status_dot_color | default: '#43B047' }}; --inventory-font-size-desktop: {{ block.settings.in_stock_font_size_desktop | default: 18 }}px; --inventory-font-size-mobile: {{ block.settings.in_stock_font_size_mobile | default: 16 }}px; --inventory-font-weight: {{ block.settings.in_stock_font_weight | default: '500' }};"
+  {{ block.shopify_attributes }}
+>
+  <div class="no-js:space-y-1">
+    {% for variant in inventory_variants %}
+      <div
+        x-show="currentVariantId === {{ variant.id }}"
+        {% unless variant.id == product.selected_or_first_available_variant.id
+        %}
+          class="no-js:!block"
+          style="display: none;"
+        {% endunless %}
+      >
+        {% unless product.has_only_default_variant %}
+          <span class="hidden no-js:inline">{{ variant.title }}:</span>
+        {% endunless %}
+        {% if variant.inventory_quantity > 0 %}
+          <span class="mag-product-inventory-status is-in-stock{% if variant.inventory_quantity <= block.settings.low_inventory_threshold %} is-low-stock{% endif %}">
+            {% if block.settings.show_status_dot %}
+              <span class="mag-product-inventory-dot" aria-hidden="true"></span>
+            {% endif %}
+            <span>{{ in_stock_label }}</span>
+            {% if block.settings.show_inventory_quantity %}
+              <span class="mag-product-inventory-count">({{ variant.inventory_quantity }})</span>
+            {% endif %}
+          </span>
+        {% else %}
+          {% if variant.inventory_policy == 'continue' %}
+            <span class="mag-product-inventory-status is-in-stock">
+              {% if block.settings.show_status_dot %}
+                <span class="mag-product-inventory-dot" aria-hidden="true"></span>
+              {% endif %}
+              <span>{{ in_stock_label }}</span>
+            </span>
+          {% else %}
+            <span>
+              {{ 'products.product.inventory_out_of_stock' | t }}
+            </span>
+          {% endif %}
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</div>

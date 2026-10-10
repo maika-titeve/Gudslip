@@ -1,0 +1,130 @@
+{% liquid
+  assign picker_label = block.settings.label | default: 'Color' | strip
+  assign current_label = block.settings.active_label | strip
+  assign has_swatch = false
+  assign active_swatch_found = false
+
+  assign sibling_product_1 = block.settings.product_1
+  assign sibling_handle_1 = sibling_product_1.handle | default: ''
+  assign sibling_label_1 = block.settings.label_1 | strip
+  if sibling_product_1 != blank
+    assign has_swatch = true
+    if sibling_label_1 == blank
+      assign sibling_label_1 = sibling_product_1.title
+    endif
+    if sibling_handle_1 == product.handle
+      assign current_label = sibling_label_1
+      assign active_swatch_found = true
+    endif
+  endif
+
+  assign sibling_product_2 = block.settings.product_2
+  assign sibling_handle_2 = sibling_product_2.handle | default: ''
+  assign sibling_label_2 = block.settings.label_2 | strip
+  if sibling_product_2 != blank
+    assign has_swatch = true
+    if sibling_label_2 == blank
+      assign sibling_label_2 = sibling_product_2.title
+    endif
+    if sibling_handle_2 == product.handle
+      assign current_label = sibling_label_2
+      assign active_swatch_found = true
+    endif
+  endif
+
+  assign sibling_product_3 = block.settings.product_3
+  assign sibling_handle_3 = sibling_product_3.handle | default: ''
+  assign sibling_label_3 = block.settings.label_3 | strip
+  if sibling_product_3 != blank
+    assign has_swatch = true
+    if sibling_label_3 == blank
+      assign sibling_label_3 = sibling_product_3.title
+    endif
+    if sibling_handle_3 == product.handle
+      assign current_label = sibling_label_3
+      assign active_swatch_found = true
+    endif
+  endif
+%}
+
+{% if has_swatch %}
+  <div class="{{ block_base_classes }} mag-product-sibling-colors" {{ block.shopify_attributes }}>
+    <p class="mag-product-sibling-colors-label">
+      {{ picker_label }}{% if current_label != blank %}: <strong>{{ current_label }}</strong>{% endif %}
+    </p>
+
+    <div class="mag-product-sibling-colors-list" role="list">
+      {% for render_pass in (1..2) %}
+        {% for swatch_index in (1..3) %}
+          {% liquid
+            assign sibling_product = blank
+            assign sibling_label = blank
+            assign sibling_image = blank
+            assign sibling_color = '#f3f3f3'
+
+            case swatch_index
+              when 1
+                assign sibling_product = sibling_product_1
+                assign sibling_label = sibling_label_1
+                assign sibling_image = block.settings.image_1
+                assign sibling_color = block.settings.color_1
+              when 2
+                assign sibling_product = sibling_product_2
+                assign sibling_label = sibling_label_2
+                assign sibling_image = block.settings.image_2
+                assign sibling_color = block.settings.color_2
+              when 3
+                assign sibling_product = sibling_product_3
+                assign sibling_label = sibling_label_3
+                assign sibling_image = block.settings.image_3
+                assign sibling_color = block.settings.color_3
+            endcase
+
+            assign should_render = false
+            assign is_active = false
+            if sibling_product != blank and sibling_product.handle == product.handle
+              assign is_active = true
+            endif
+            if sibling_product != blank
+              if render_pass == 1 and is_active
+                assign should_render = true
+              elsif render_pass == 2 and is_active == false
+                assign should_render = true
+              endif
+            endif
+
+            if sibling_label == blank and sibling_product != blank
+              assign sibling_label = sibling_product.title
+            endif
+
+            if sibling_image == blank and sibling_product.metafields.custom.swatch_image != blank
+              assign sibling_image = sibling_product.metafields.custom.swatch_image.value
+            endif
+          %}
+
+          {% if should_render %}
+            {% if is_active %}
+              <span class="mag-product-sibling-color is-active" role="listitem" aria-current="true" aria-label="{{ sibling_label }}">
+            {% else %}
+              <a class="mag-product-sibling-color" role="listitem" href="{{ sibling_product.url }}" aria-label="{{ sibling_label }}">
+            {% endif %}
+
+              {% if sibling_image != blank %}
+                {{ sibling_image | image_url: width: 160 | image_tag: loading: 'lazy', widths: '80,160', class: 'mag-product-sibling-color-image' }}
+              {% else %}
+                <span class="mag-product-sibling-color-fallback" style="background-color: {{ sibling_color }};"></span>
+              {% endif %}
+
+              <span class="sr-only">{{ sibling_label }}</span>
+
+            {% if is_active %}
+              </span>
+            {% else %}
+              </a>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}

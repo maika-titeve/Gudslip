@@ -1,0 +1,17 @@
+{%- assign w_continue = 'no' -%}
+{% assign wlmHideItem_Product = false %}
+{% if wlm-product.collections %}
+
+                            {% for c in wlm-product.collections %}
+{% if c.id == 327153746099 %} 
+ {% if wlm_collection == null %}{% assign wlm_collection = 1 %}{%endif %}
+{% unless wlm_collection == "327153746099" or collection.id == 327153746099 %}
+{% assign  wlmHideItem_Product = true %}{% endunless %}
+
+{% endif %}
+{% endfor %}{% endif %}
+
+
+{% if wlmHideItem_Product == true %}{% continue %}{% endif %}
+
+{%- if wlm_is_render == 'yes' -%}{{- w_continue -}}{%-endif-%}
